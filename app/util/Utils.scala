@@ -26,7 +26,7 @@ object LastFM {
                     val img = "<img src=\"" + url + "\">"
                     Cache.set(song.artist + song.album, img)
                 } else {
-                    Cache.set(song.artist + song.album, "---")
+                    Cache.set(song.artist + song.album, "<img src=\"/assets/images/pict.png\">")
                 }
         }
     }

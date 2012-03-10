@@ -67,7 +67,7 @@ object Application extends Controller {
 
     def queue() = Action {
         Ok(Player.songsQueue.foldLeft("") { (acc, n) =>
-            acc + "<tr><td>" + n.name + "</td><td><a href=\"" + n.id + "\" class=\"copy-queue btn btn-small btn-success\">►</a>" + "&nbsp;<a href=\"" + n.id + "\" class=\"delete-queue btn btn-small btn-danger\">x</a></td></tr>"
+            acc + "<tr><td>" + n.name + "</td><td style=\"width: 70px\"><a href=\"" + n.id + "\" class=\"copy-queue btn btn-mini btn-success\"><i class=\"icon-play icon-white\"></i></a>" + "&nbsp;<a href=\"" + n.id + "\" class=\"delete-queue btn btn-mini btn-danger\"><i class=\"icon-remove icon-white\"></i></a></td></tr>"
         })
     }
 

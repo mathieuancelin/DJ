@@ -6,13 +6,13 @@
         <address id="playing">
         </address>
         <div id="pict"></div><br/>
-        <a href="#" id="play" class="btn btn-success"><i class="icon-play icon-white"></i> Play</a>
-        <a href="#" id="next" class="btn btn-success"><i class="icon-fast-forward icon-white"></i> Next</a>
-        <a href="#" id="stop" class="btn btn-danger"><i class="icon-stop icon-white"></i> Stop</a><br/><br/>
-        <a href="#" id="clear" class="btn btn-primary"><i class="icon-remove icon-white"></i> Clear Queue</a>
-        <a href="#" id="killall" class="btn btn-danger"><i class="icon-stop icon-white"></i> Kill All</a>
+        <a href="#" id="play" class="btn btn-success"><i class="icon-play icon-white"></i><!-- Play--></a>
+        <a href="#" id="next" class="btn btn-success"><i class="icon-fast-forward icon-white"></i><!--  Next--></a>
+        <a href="#" id="stop" class="btn btn-danger"><i class="icon-stop icon-white"></i><!--  Stop--></a><!-- <br/><br/>-->
+        <a href="#" id="clear" class="btn btn-primary"><i class="icon-remove icon-white"></i><!--  Clear Queue--></a>
+        <a href="#" id="killall" class="btn btn-danger"><i class="icon-fire icon-white"></i><!--  Kill All--></a>
         <br/><br/>
-        <h2>Queue</h2><br/>
+        <h2>Song Queue</h2><br/>
         <table id="queue" class="table table-striped table-condensed table-bordered"></table>
     </div>
     <div class="span8">
@@ -46,7 +46,7 @@
         @for(song <- songs) {
             <tr>
                 <td style="width: 50px">
-                    <a href="@song.id" class="play-queue btn btn-success" title="Add to play queue"><i class="icon-play icon-white "></i></a>
+                    <a href="@song.id" class="play-queue btn btn-inverse" title="Add to play queue"><i class="icon-plus-sign icon-white "></i></a>
                 </td>
                 <td style="width: 400px">
                     @song.name
