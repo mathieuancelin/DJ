@@ -54,7 +54,7 @@ object Application extends Controller {
                 val id: java.lang.Long = Option.apply( maybeIdValue ).map( java.lang.Long.valueOf( _ ) ).getOrElse( java.lang.Long.valueOf( -1 ) )
                 val newQueue = Player.songsQueue.filter( _.id != id )
                 Player.songsQueue.clear
-                newQueue.foreach {Player.songsQueue.enqueue(_)}
+                newQueue.foreach { Player.songsQueue.enqueue( _ ) }
             }
         )
         Ok("deleted")
@@ -86,6 +86,11 @@ object Application extends Controller {
         } else {
             Ok("")
         }
+    }
+
+    def killall() = Action {
+        Runtime.getRuntime().exec("killall afplay")
+        Ok("killed")
     }
 
     def playSong() = Action {
