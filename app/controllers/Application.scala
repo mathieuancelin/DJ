@@ -8,6 +8,7 @@ import models._
 import play.api.cache._
 import play.api.Play.current
 import services._
+import play.api.libs.json._
 
 import scala.collection.mutable.Queue
 
@@ -70,9 +71,28 @@ object Application extends Controller {
     def playing() = Action {
         Ok( 
             Player.currentSong.map { song => 
-                "<strong>" + song.name + "</strong><br/>from: " + song.album + "<br/>by: " + song.artist + "<br/>" 
-            } getOrElse( "<strong>Nothing</strong>" ) 
+                Json.toJson(
+                    JsObject(
+                        List(
+                            "name" -> JsString( song.name ),
+                            "album" -> JsString( song.album ),
+                            "artist" -> JsString( song.artist )
+                        )
+                    )
+                )
+            } getOrElse( 
+                Json.toJson(
+                    JsObject(
+                        List(
+                            "name" -> JsString( "Nothing" ),
+                            "album" -> JsString( "" ),
+                            "artist" -> JsString( "" )
+                        )
+                    )
+                )
+            ) 
         )
+        //“links” ->JsArray( List ())
     }
 
     def currentPict() = Action {

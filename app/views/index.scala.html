@@ -106,7 +106,7 @@
                 $('#queue').html(data)
             })
             $.get('@routes.Application.playing()', function(data) {
-                $('#playing').html(data)
+                $('#playing').html("<strong>" + data["name"] + "</strong><br/>from: " + data["album"] + "<br/>by: " + data["artist"])
             })
             $.get('@routes.Application.currentPict()', function(data) {
                 $('#pict').html(data)
