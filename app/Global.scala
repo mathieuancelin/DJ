@@ -2,7 +2,8 @@ import play.api._
 import java.io._
 import models._
 import controllers._
-import scala.collection.IndexedSeq
+import services._
+import scala.collection.mutable._
 
 object Global extends GlobalSettings {
   
@@ -20,7 +21,7 @@ object MusicLibraryScanner {
         var index = 0L
         val root = new File( base )
         val artists = root.list( new FilenameFilter() {
-            def accept( f: File, name: String) = {
+            def accept( f: File, name: String ) = {
                 if (name.equals("Podcasts")) {
                     false
                 } else {
@@ -30,14 +31,14 @@ object MusicLibraryScanner {
         } )
         for (artist <- artists) {
             val albums = new File( base, artist ).list( new FilenameFilter() {
-                def accept( f: File, name: String) = {
+                def accept( f: File, name: String ) = {
                     new File( f, name ).isDirectory()
                 }    
             } )
             if (albums != null) {
                 for (album <- albums) {
                     val songs = new File( base + "/" + artist, album ).list( new FilenameFilter() {
-                        def accept( f: File, name: String) = {
+                        def accept( f: File, name: String ) = {
                             name.endsWith( ".mp3" )
                         }    
                     } )
@@ -49,6 +50,6 @@ object MusicLibraryScanner {
                 }
             }
         }
-        Application.songsList = songsList
+        Player.songsList = songsList // don't like it ....
     }
 }
