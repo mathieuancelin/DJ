@@ -9,6 +9,8 @@ import play.api.Play.current
 
 object LastFM {
 
+    val emptyCover = "/assets/images/pict.png" 
+
     def retrieveCoverArtFromLastFM( song: Song ) = {
 
         WS.url( "http://ws.audioscrobbler.com/2.0/?method=album.getinfo&api_key=b25b959554ed76058ac220b7b2e0a026&artist=" 
@@ -20,7 +22,7 @@ object LastFM {
                     case "large" => {
                         val url = image.text 
                         url match {
-                            case "" => Cache.set( song.artist + song.album, "/assets/images/pict.png" )
+                            case "" => Cache.set( song.artist + song.album, emptyCover )
                             case _ => Cache.set( song.artist + song.album, url )
                         }
                     }

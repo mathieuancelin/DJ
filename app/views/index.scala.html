@@ -8,11 +8,17 @@
             from: <%= album %><br/>
             by: <%= artist %>
         </script>
-        <address id="playing"></address>
+        <address id="playing">
+            <strong>Nothing</strong><br/>
+            from: <br/>
+            by: 
+        </address>
         <script type="text/html" id="pict_tmpl">
             <img src="<%= img %>">
         </script>
-        <div id="pict"></div>
+        <div id="pict">
+            <img src="@services.LastFM.emptyCover">
+        </div>
         <br/>
         <a href="#" id="play" class="btn btn-success"><i class="icon-play icon-white"></i></a>
         <a href="#" id="next" class="btn btn-success"><i class="icon-fast-forward icon-white"></i></a>
@@ -137,16 +143,12 @@
                     $('#pict').html( pict )
                 }
                 $('#queue').html("")
-                var content = ""
                 var songs = data["queue"]
                 for (i in songs) {
-                    var song = songs[i]
-                    var id = song["id"]
-                    var name = song["name"]
                     $('#queue').append( tmpl('queue_tmpl', 
                         { 
-                            id: id, 
-                            name: name 
+                            id: songs[i]["id"], 
+                            name: songs[i]["name"] 
                         } 
                     ))
                 }

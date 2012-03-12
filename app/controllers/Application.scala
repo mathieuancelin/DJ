@@ -80,7 +80,7 @@ object Application extends Controller {
                             "name" -> JsString( "Nothing" ),
                             "album" -> JsString( "" ),
                             "artist" -> JsString( "" ),
-                            "img" -> JsString( "/assets/images/pict.png" ),
+                            "img" -> JsString( LastFM.emptyCover ),
                             "queue" -> queue()
                         )
                     )
@@ -107,10 +107,10 @@ object Application extends Controller {
                 val maybeImg:Option[String] = Cache.getAs[String](song.artist + song.album)
                 maybeImg.getOrElse {
                     LastFM.retrieveCoverArtFromLastFM( song )
-                    "/assets/images/pict.png"
+                    LastFM.emptyCover
                 }
             }
-            case _ => "/assets/images/pict.png"
+            case _ => LastFM.emptyCover
         }
     }
 
