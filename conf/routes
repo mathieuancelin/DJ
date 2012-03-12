@@ -12,6 +12,7 @@ POST    /delqueue                   controllers.Application.deletequeue
 POST    /play                       controllers.Application.playSong
 POST    /clear                      controllers.Application.clearQueue
 POST    /stop                       controllers.Application.stopSong
+GET     /redindex                   controllers.Application.updateLibrary
 
 #Feedback
 GET     /playing                    controllers.Application.playing

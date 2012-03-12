@@ -99,6 +99,14 @@ object Application extends Controller {
         Ok("stopped")
     }
 
+    def updateLibrary() = Action {
+        Player.songsQueue.clear
+        val base = current.configuration.getString( "music.root" )
+            .getOrElse( "/Users/mathieuancelin/Music/iTunes/iTunes Music" )
+        MusicLibraryScanner.scan( base )
+        Redirect( routes.Application.index() )
+    }
+
     ///////  ------ No more Actions, util methods -------- ///////
 
     def currentPict() = {
