@@ -103,7 +103,17 @@
         });
         var refresh = function() {
             $.get('@routes.Application.queue()', function(data) {
-                $('#queue').html(data)
+                var content = ""
+                var songs = data["songs"]
+                for (i in songs) {
+                    var song = songs[i]
+                    var id = song["id"]
+                    var name = song["name"]
+                    content += "<tr>"
+                    content += "<td>" +name + "</td>"
+                    content += "<td style=\"width: 70px\"><a href=\"" + id + "\" class=\"copy-queue btn btn-mini btn-success\"><i class=\"icon-play icon-white\"></i></a>&nbsp;<a href=\"" + id + "\" class=\"delete-queue btn btn-mini btn-danger\"><i class=\"icon-remove icon-white\"></i></a></td></tr>"
+                }
+                $('#queue').html(content)
             })
             $.get('@routes.Application.playing()', function(data) {
                 $('#playing').html("<strong>" + data["name"] + "</strong><br/>from: " + data["album"] + "<br/>by: " + data["artist"])

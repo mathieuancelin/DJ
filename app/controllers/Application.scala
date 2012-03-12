@@ -9,8 +9,7 @@ import play.api.cache._
 import play.api.Play.current
 import services._
 import play.api.libs.json._
-
-import scala.collection.mutable.Queue
+import scala.collection.mutable._
 
 object Application extends Controller {
 
@@ -61,11 +60,16 @@ object Application extends Controller {
     }
 
     def queue() = Action {
-        Ok(
-            Player.songsQueue.foldLeft("") { ( acc, n ) =>
-                acc + "<tr><td>" + n.name + "</td><td style=\"width: 70px\"><a href=\"" + n.id + "\" class=\"copy-queue btn btn-mini btn-success\"><i class=\"icon-play icon-white\"></i></a>&nbsp;<a href=\"" + n.id + "\" class=\"delete-queue btn btn-mini btn-danger\"><i class=\"icon-remove icon-white\"></i></a></td></tr>"
-            }
-        )
+        var l = List[JsObject]()
+        Player.songsQueue.foreach { song =>
+            l = l :+ JsObject(
+                List(
+                    "id" -> JsString( "" + song.id ),
+                    "name" -> JsString( song.name )
+                )
+            )
+        }
+        Ok( Json.toJson( JsObject ( List ( "songs" -> JsArray( l ) ) ) ) )
     }
 
     def playing() = Action {
@@ -92,7 +96,6 @@ object Application extends Controller {
                 )
             ) 
         )
-        //“links” ->JsArray( List ())
     }
 
     def currentPict() = Action {
