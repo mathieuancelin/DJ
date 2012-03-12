@@ -3,15 +3,37 @@
 @main("DJ - Songs library") {
     <div class="span4">
         <h2>Now playing</h2><br/>
-        <address id="playing">
-        </address>
-        <div id="pict"></div><br/>
-        <a href="#" id="play" class="btn btn-success"><i class="icon-play icon-white"></i><!-- Play--></a>
-        <a href="#" id="next" class="btn btn-success"><i class="icon-fast-forward icon-white"></i><!--  Next--></a>
-        <a href="#" id="stop" class="btn btn-danger"><i class="icon-stop icon-white"></i><!--  Stop--></a><!-- <br/><br/>-->
-        <a href="#" id="clear" class="btn btn-primary"><i class="icon-remove icon-white"></i><!--  Clear Queue--></a>
+        <script type="text/html" id="playing_tmpl">
+            <strong><%= name %></strong><br/>
+            from: <%= album %><br/>
+            by: <%= artist %>
+        </script>
+        <address id="playing"></address>
+        <script type="text/html" id="pict_tmpl">
+            <img src="<%= img %>">
+        </script>
+        <div id="pict"></div>
+        <br/>
+        <a href="#" id="play" class="btn btn-success"><i class="icon-play icon-white"></i></a>
+        <a href="#" id="next" class="btn btn-success"><i class="icon-fast-forward icon-white"></i></a>
+        <a href="#" id="stop" class="btn btn-danger"><i class="icon-stop icon-white"></i></a>
+        <a href="#" id="clear" class="btn btn-primary"><i class="icon-remove icon-white"></i></a>
         <br/><br/>
         <h2>Song Queue</h2><br/>
+        <script type="text/html" id="queue_tmpl">
+            <tr>
+                <td><%= name %></td>
+                <td style="width: 70px">
+                    <a href="<%= id %>" class="copy-queue btn btn-mini btn-success">
+                        <i class="icon-play icon-white"></i>
+                    </a>
+                    &nbsp;
+                    <a href="<%= id %>" class="delete-queue btn btn-mini btn-danger">
+                        <i class="icon-remove icon-white"></i>
+                    </a>
+                </td>
+            </tr>
+        </script>
         <table id="queue" class="table table-striped table-condensed table-bordered"></table>
     </div>
     <div class="span8">
@@ -102,24 +124,32 @@
             $.post('@routes.Application.clearQueue()')
         });
         var refresh = function() {
-            $.get('@routes.Application.queue()', function(data) {
+            $.get('@routes.Application.playing()', function(data) {
+                $('#playing').html( tmpl('playing_tmpl', 
+                    { 
+                        name: data["name"], 
+                        album: data["album"], 
+                        artist: data["artist"] 
+                    } 
+                ))
+                var pict = tmpl('pict_tmpl', { img: data["img"] } )
+                if ($('#pict').html() != pict) {
+                    $('#pict').html( pict )
+                }
+                $('#queue').html("")
                 var content = ""
-                var songs = data["songs"]
+                var songs = data["queue"]
                 for (i in songs) {
                     var song = songs[i]
                     var id = song["id"]
                     var name = song["name"]
-                    content += "<tr>"
-                    content += "<td>" +name + "</td>"
-                    content += "<td style=\"width: 70px\"><a href=\"" + id + "\" class=\"copy-queue btn btn-mini btn-success\"><i class=\"icon-play icon-white\"></i></a>&nbsp;<a href=\"" + id + "\" class=\"delete-queue btn btn-mini btn-danger\"><i class=\"icon-remove icon-white\"></i></a></td></tr>"
+                    $('#queue').append( tmpl('queue_tmpl', 
+                        { 
+                            id: id, 
+                            name: name 
+                        } 
+                    ))
                 }
-                $('#queue').html(content)
-            })
-            $.get('@routes.Application.playing()', function(data) {
-                $('#playing').html("<strong>" + data["name"] + "</strong><br/>from: " + data["album"] + "<br/>by: " + data["artist"])
-            })
-            $.get('@routes.Application.currentPict()', function(data) {
-                $('#pict').html(data)
             })
         }
         $(document).ready(function () {             
@@ -128,6 +158,7 @@
                 stripeRows: ['odd', 'even']                    
             });  
             $("#library").tablesorter(); 
+            refresh()
             setInterval(refresh, 1000);
         });
     </script>

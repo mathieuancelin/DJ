@@ -20,8 +20,8 @@ object LastFM {
                     case "large" => {
                         val url = image.text 
                         url match {
-                            case "" => Cache.set( song.artist + song.album, "<img src=\"/assets/images/pict.png\">" )
-                            case _ => Cache.set( song.artist + song.album, "<img src=\"" + url + "\">" )
+                            case "" => Cache.set( song.artist + song.album, "/assets/images/pict.png" )
+                            case _ => Cache.set( song.artist + song.album, url )
                         }
                     }
                     case _ => Unit

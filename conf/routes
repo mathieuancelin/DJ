@@ -15,9 +15,6 @@ POST    /stop                       controllers.Application.stopSong
 
 #Feedback
 GET     /playing                    controllers.Application.playing
-GET     /pict                       controllers.Application.currentPict
-GET     /queue                      controllers.Application.queue
-
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

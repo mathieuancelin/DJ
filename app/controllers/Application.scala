@@ -59,19 +59,6 @@ object Application extends Controller {
         Ok( "cleared" )
     }
 
-    def queue() = Action {
-        var l = List[JsObject]()
-        Player.songsQueue.foreach { song =>
-            l = l :+ JsObject(
-                List(
-                    "id" -> JsString( "" + song.id ),
-                    "name" -> JsString( song.name )
-                )
-            )
-        }
-        Ok( Json.toJson( JsObject ( List ( "songs" -> JsArray( l ) ) ) ) )
-    }
-
     def playing() = Action {
         Ok( 
             Player.currentSong.map { song => 
@@ -80,7 +67,9 @@ object Application extends Controller {
                         List(
                             "name" -> JsString( song.name ),
                             "album" -> JsString( song.album ),
-                            "artist" -> JsString( song.artist )
+                            "artist" -> JsString( song.artist ),
+                            "img" -> JsString( currentPict() ),
+                            "queue" -> queue()
                         )
                     )
                 )
@@ -90,25 +79,14 @@ object Application extends Controller {
                         List(
                             "name" -> JsString( "Nothing" ),
                             "album" -> JsString( "" ),
-                            "artist" -> JsString( "" )
+                            "artist" -> JsString( "" ),
+                            "img" -> JsString( "/assets/images/pict.png" ),
+                            "queue" -> queue()
                         )
                     )
                 )
             ) 
         )
-    }
-
-    def currentPict() = Action {
-        Player.currentSong match {
-            case Some( song ) => {
-                val maybeImg:Option[String] = Cache.getAs[String](song.artist + song.album)
-                Ok( maybeImg.getOrElse {
-                    LastFM.retrieveCoverArtFromLastFM( song )
-                    ""
-                })
-            }
-            case _ => Ok( "" )
-        }
     }
 
     def playSong() = Action {
@@ -119,6 +97,34 @@ object Application extends Controller {
     def stopSong() = Action {
         Player.stop()
         Ok("stopped")
+    }
+
+    ///////  ------ No more Actions, util methods -------- ///////
+
+    def currentPict() = {
+        Player.currentSong match {
+            case Some( song ) => {
+                val maybeImg:Option[String] = Cache.getAs[String](song.artist + song.album)
+                maybeImg.getOrElse {
+                    LastFM.retrieveCoverArtFromLastFM( song )
+                    "/assets/images/pict.png"
+                }
+            }
+            case _ => "/assets/images/pict.png"
+        }
+    }
+
+    def queue() = {
+        var l = List[JsObject]()
+        Player.songsQueue.foreach { song =>
+            l = l :+ JsObject(
+                List(
+                    "id" -> JsString( "" + song.id ),
+                    "name" -> JsString( song.name )
+                )
+            )
+        }
+        JsArray( l )
     }
 
     def toL( value: String ) = {
