@@ -35,6 +35,8 @@ object MusicLibraryScanner {
                 }
             }
         }
-        Player.songsList = songsList // don't like it ....
+        Player.songsList = songsList.sortWith { (a, b) =>
+            a.path.compareToIgnoreCase(b.path) < 0
+        }
     }
 }
