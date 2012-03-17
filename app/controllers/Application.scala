@@ -101,6 +101,7 @@ object Application extends Controller {
 
     def updateLibrary() = Action {
         Player.songsQueue.clear
+        Player.songsList = IndexedSeq[Song]()
         val base = current.configuration.getString( "music.root" )
             .getOrElse( "/Users/mathieuancelin/Music/iTunes/iTunes Music" )
         MusicLibraryScanner.scan( base )

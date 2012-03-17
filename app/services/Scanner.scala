@@ -9,8 +9,6 @@ import scala.collection.mutable._
 
 object MusicLibraryScanner {
 
-    var songsList = IndexedSeq[Song]()
-
     val dirFilter = new FilenameFilter() {
         def accept( f: File, name: String ) = {
             new File( f, name ).isDirectory()
@@ -24,6 +22,7 @@ object MusicLibraryScanner {
     }
 
     def scan( base: String ) = {
+        var songsList = IndexedSeq[Song]()
         var index = 0L
         new File( base ).list( dirFilter ).foreach { artist =>
             new File( base, artist ).list( dirFilter ).foreach { album =>
