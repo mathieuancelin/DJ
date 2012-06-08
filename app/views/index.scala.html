@@ -110,7 +110,7 @@
 
     <script type="text/javascript">
 
-        var render = function(templateId, view) { 
+        function render(templateId, view) { 
             return Mustache.render( $(templateId).html(), view )
         }
 
@@ -182,6 +182,7 @@
             });  
             refresh()
             $("#library").tablesorter()
+            DJ.log("Ready to go !!!")
             setInterval(refresh, 1000)
         });
     </script>

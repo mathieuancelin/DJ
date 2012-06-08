@@ -22,18 +22,25 @@ object MusicLibraryScanner {
     }
 
     def scan( base: String ) = {
+        Player.songsList = IndexedSeq[Song]()
         var songsList = IndexedSeq[Song]()
         var index = 0L
-        new File( base ).list( dirFilter ).foreach { artist =>
-            new File( base, artist ).list( dirFilter ).foreach { album =>
-                new File( base + "/" + artist, album ).list( mp3Filter ).foreach { song =>
-                    val s = Song(index, new File( base + "/" + artist + "/" + album, song )
-                        .getAbsolutePath(), song, artist, album)
-                    songsList = songsList :+ s
-                    index = index + 1
-                }
-            }
-        }
+        println("Scan music library at '" + base + "'")
+        Option.apply(new File( base ).list( dirFilter )).foreach { listart => listart.foreach { artist =>
+            println("Found artist " + artist)
+            Option.apply(new File( base, artist ).list( dirFilter )).foreach { listal => listal.foreach { album =>
+                println("  found album " + album)
+                Option.apply(new File( base + "/" + artist, album ).list( mp3Filter )).foreach { listso => listso.foreach { song =>
+                    if (!song.startsWith(".")) {
+                        println("    found song : " + song)
+                        val s = Song(index, new File( base + "/" + artist + "/" + album, song )
+                            .getAbsolutePath(), song, artist, album)
+                        songsList = songsList :+ s
+                        index = index + 1
+                    }
+                }}
+            }}
+        }}
         Player.songsList = songsList.sortWith { (a, b) =>
             a.path.compareToIgnoreCase(b.path) < 0
         }

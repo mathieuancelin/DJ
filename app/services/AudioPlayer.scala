@@ -68,7 +68,7 @@ class PlayQueueActor extends Actor with ActorLogging {
             }
         }
         case s: Stop => {
-            Runtime.getRuntime().exec("killall " + Player.playerExec + " > /dev/null 2>&1")
+            Runtime.getRuntime().exec( "killall " + Player.playerExec + " > /dev/null 2>&1" )
         }
     }
 }

@@ -10,7 +10,7 @@ object Global extends GlobalSettings {
     override def onStart( app: Application ) {
         val base = app.configuration.getString( "music.root" )
             .getOrElse( "/Users/mathieuancelin/Music/iTunes/iTunes Music" )
-        MusicLibraryScanner.scan( base )
+        MusicLibraryScanner.scan( base ) 
     }
 }
 
