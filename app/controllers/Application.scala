@@ -18,7 +18,8 @@ object Application extends Controller {
     val idForm = Form( "id" -> text )
 
     def index() = Action {
-        Ok( views.html.index( Song.findAll() ) )
+        val songs = Song.findAll()
+        Ok( views.html.index( songs ) )
     }
 
     def enqueue() = Action { implicit request =>
@@ -120,8 +121,16 @@ object Application extends Controller {
     }
 
     def updateLibrary() = Action {
+        var queue = Queue[Song]()
+        Player.songsQueue.foreach { queue.enqueue( _ ) }
         Player.songsQueue.clear
         MusicLibraryScanner.scan( Constants.musicBase )
+        queue.foreach { oldsong =>
+            Song.findByArtistAndAlbumAndName(oldsong.artist, oldsong.album, oldsong.name).foreach { song =>
+                Player.songsQueue.enqueue( song )
+            }
+        }
+        updateClients()
         Redirect( routes.Application.index() )
     }
 
