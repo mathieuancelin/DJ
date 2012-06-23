@@ -1,6 +1,8 @@
-@(songs: IndexedSeq[Song])
+@(songs: List[Song])
 
 @main("DJ - Songs library") {
+
+<div class="row-fluid">
     <div class="span4">
         <h2>Now playing</h2><br/>
         <script type="text/html" id="playing_tmpl">
@@ -17,13 +19,17 @@
             <img src="{{img}}">
         </script>
         <div id="pict">
-            <img src="@services.LastFM.emptyCover">
+            <img src="@util.LastFM.emptyCover">
         </div>
         <br/>
         <a href="#" id="play" class="btn btn-success"><i class="icon-play icon-white"></i></a>
         <a href="#" id="next" class="btn btn-success"><i class="icon-fast-forward icon-white"></i></a>
         <a href="#" id="stop" class="btn btn-danger"><i class="icon-stop icon-white"></i></a>
         <a href="#" id="clear" class="btn btn-primary"><i class="icon-remove icon-white"></i></a>
+        <br/>    <br/>
+        <a href="@routes.FilesController.currentSong()" id="download" class="btn btn-inverse"><i class="icon-download icon-white"></i></a>
+        <a href="@routes.FilesController.currentQueue()" id="downloadall" class="btn btn-inverse"><i class="icon-list-alt icon-white"></i></a>
+        <a href="#" id="saveplaylist" class="btn btn-inverse"><i class="icon-hdd icon-white"></i></a>
         <br/><br/>
         <h2>Song Queue</h2><br/>
         <script type="text/html" id="queue_tmpl">
@@ -93,13 +99,13 @@
                     <a href="@song.id" class="play-queue btn btn-inverse" title="Add to play queue"><i class="icon-plus-sign icon-white "></i></a>
                 </td>
                 <td style="width: 400px">
-                    @song.name
+                    <a href="@routes.FilesController.file(song.id)">@song.name</a>
                 </td>
                 <td style="width: 150px">
-                    @song.album
+                    <a href="@routes.FilesController.album(song.artist, song.album)">@song.album</a>
                 </td>
                 <td style="width: 150px">
-                    @song.artist
+                    <a href="@routes.FilesController.artist(song.artist)">@song.artist</a>
                 </td>
             </tr>
         }
@@ -110,7 +116,7 @@
 
     <script type="text/javascript">
 
-        function render(templateId, view) { 
+        function render(templateId, view) {
             return Mustache.render( $(templateId).html(), view )
         }
 
@@ -122,9 +128,9 @@
         $('a.copy-queue').live('click', function(e) {
             e.preventDefault()
             var href = $(this).attr('href')
-            $.post('@routes.Application.stopSong()')
+            $.post('@routes.CommandsController.stopSong()')
             $.post('@routes.Application.prequeue()', {id: href}, function(data) {
-                $.post('@routes.Application.playSong()')
+                $.post('@routes.CommandsController.playSong()')
             })
         })
         $('a.delete-queue').live('click', function(e) {
@@ -134,56 +140,70 @@
         })
         $('#play').click(function(e) {
             e.preventDefault()
-            $.post('@routes.Application.playSong()')
+            $.post('@routes.CommandsController.playSong()')
         });
         $('#next').click(function(e) {
             e.preventDefault()
-            $.post('@routes.Application.stopSong()', function(data) {
-                $.post('@routes.Application.playSong()')
-            })
+            $.post('@routes.CommandsController.nextSong()')
         });
         $('#stop').click(function(e) {
             e.preventDefault()
-            $.post('@routes.Application.stopSong()')
+            $.post('@routes.CommandsController.stopSong()')
         });
         $('#clear').click(function(e) {
             e.preventDefault()
-            $.post('@routes.Application.clearQueue()')
+            $.post('@routes.CommandsController.clearQueue()')
         });
-        var refresh = function() {
-            $.get('@routes.Application.playing()', function(data) {
-                $('#playing').html( render('#playing_tmpl', 
-                    { 
-                        name: data["name"], 
-                        album: data["album"], 
-                        artist: data["artist"] 
-                    } 
-                ))
-                var pict = render('#pict_tmpl', { img: data["img"] } )
-                if ($('#pict').html() != pict) {
-                    $('#pict').html( pict )
+        function openSSEConnection() {
+            var pushSource = new EventSource( '@routes.Application.playingSSE()' )
+            pushSource.onopen = function(e) {
+                console.log("[INFO] Monitoring event source opened !")
+            }
+            pushSource.onerror = function(e) {
+                if (pushSource.readyState == EventSource.CLOSED) {
+                    console.log("[INFO] Monitoring event source closed !")
+                } else {
+                    console.log("[ERROR] Monitoring event source error : %s", e)
                 }
-                $('#queue').html("")
-                var songs = data["queue"]
-                for (i in songs) {
-                    $('#queue').append( render('#queue_tmpl', 
-                        { 
-                            id: songs[i]["id"], 
-                            name: songs[i]["name"] 
-                        } 
-                    ))
-                }
-            })
+            }
+            pushSource.onmessage = function ( event ) {
+                var data = JSON.parse( event.data )
+                updateUI( data )
+            }
+            $.post( '@routes.Application.update()' )
         }
-        $(document).ready(function () {             
-            $("#id_search").quicksearch("#library tbody tr", {                 
-                noResults: '#noresults',                    
-                stripeRows: ['odd', 'even']                    
-            });  
-            refresh()
+        function updateUI( data) {
+            $('#playing').html( render('#playing_tmpl',
+                {
+                    name: data["name"],
+                    album: data["album"],
+                    artist: data["artist"]
+                }
+            ))
+            var pict = render('#pict_tmpl', { img: data["img"] } )
+            if ($('#pict').html() != pict) {
+                $('#pict').html( pict )
+            }
+            $('#queue').html("")
+            var songs = data["queue"]
+            for (i in songs) {
+                $('#queue').append( render('#queue_tmpl',
+                    {
+                        id: songs[i]["id"],
+                        name: songs[i]["name"]
+                    }
+                ))
+            }
+        }
+        $(document).ready(function () {
+            $("#id_search").quicksearch("#library tbody tr", {
+                noResults: '#noresults',
+                stripeRows: ['odd', 'even']
+            });
             $("#library").tablesorter()
             DJ.log("Ready to go !!!")
-            setInterval(refresh, 1000)
+            setTimeout(openSSEConnection, 1000)
         });
     </script>
+</div>
 }

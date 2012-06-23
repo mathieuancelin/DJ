@@ -1,0 +1,9 @@
+body {
+    padding-top: 45px;
+}
+
+.queue-fixed-top {
+    position: fixed;
+    top: 45px;
+    left: 50px;
+}

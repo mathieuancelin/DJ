@@ -4,13 +4,12 @@ import models._
 import controllers._
 import services._
 import scala.collection.mutable._
+import util.Constants
 
 object Global extends GlobalSettings {
   
     override def onStart( app: Application ) {
-        val base = app.configuration.getString( "music.root" )
-            .getOrElse( "/Users/mathieuancelin/Music/iTunes/iTunes Music" )
-        MusicLibraryScanner.scan( base ) 
+        MusicLibraryScanner.autoScann( Constants.musicBase )
     }
 }
 

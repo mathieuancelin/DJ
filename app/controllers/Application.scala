@@ -1,6 +1,7 @@
 package controllers
 
 import play.api._
+import libs.iteratee.{Concurrent, Enumerator, Enumeratee}
 import play.api.mvc._
 import play.api.data.Forms._
 import play.api.data._
@@ -10,13 +11,14 @@ import play.api.Play.current
 import services._
 import play.api.libs.json._
 import scala.collection.mutable._
+import util.{LastFM, Constants}
 
 object Application extends Controller {
 
     val idForm = Form( "id" -> text )
 
     def index() = Action {
-        Ok( views.html.index( Player.songsList ) )
+        Ok( views.html.index( Song.findAll() ) )
     }
 
     def enqueue() = Action { implicit request =>
@@ -25,6 +27,7 @@ object Application extends Controller {
             { maybeIdValue =>
                 val id = Option.apply( maybeIdValue ).map( toL( _ ) ).getOrElse( toL( -1 ) )
                 Player.enqueue( id )
+                updateClients( )
                 Ok( "enqueued" )
             }
         )
@@ -36,6 +39,7 @@ object Application extends Controller {
             { maybeIdValue =>
                 val id = Option.apply( maybeIdValue ).map( toL( _ ) ).getOrElse( toL( -1 ) )
                 Player.prequeue( id )
+                updateClients( )
                 Ok( "prequeued " )
             }
         )
@@ -49,62 +53,75 @@ object Application extends Controller {
                 val newQueue = Player.songsQueue.filter( _.id != id )
                 Player.songsQueue.clear
                 newQueue.foreach { Player.songsQueue.enqueue( _ ) }
+                updateClients( )
                 Ok( "deleted" )
             }
         )
     }
 
-    def clearQueue() = Action {
-        Player.songsQueue.clear
-        Ok( "cleared" )
+    def playing() = Action {
+        Ok( playingDataJson() )
     }
 
-    def playing() = Action {
-        Ok( 
-            Player.currentSong.map { song => 
-                Json.toJson(
-                    JsObject(
-                        List(
-                            "name" -> JsString( song.name ),
-                            "album" -> JsString( song.album ),
-                            "artist" -> JsString( song.artist ),
-                            "img" -> JsString( currentPict() ),
-                            "queue" -> queue()
-                        )
-                    )
+    val toEventSource = Enumeratee.map[JsValue] { msg => "data: " + msg.toString() + "\n\n" }
+
+    val hubEnumerator = Enumerator.imperative[JsValue]()
+
+    val hub = Concurrent.hub[JsValue]( hubEnumerator )
+
+    def updateClients(): Unit = {
+        hubEnumerator.push( playingDataJson() )
+    }
+
+    def update( ) = Action {
+        updateClients( )
+        Ok
+    }
+
+    def playingSSE() = Action {
+        SimpleResult(
+            header = ResponseHeader(
+                OK,
+                scala.collection.immutable.Map(
+                    CONTENT_LENGTH -> "-1",
+                    CONTENT_TYPE -> "text/event-stream"
                 )
-            } getOrElse( 
-                Json.toJson(
-                    JsObject(
-                        List(
-                            "name" -> JsString( "Nothing" ),
-                            "album" -> JsString( "" ),
-                            "artist" -> JsString( "" ),
-                            "img" -> JsString( LastFM.emptyCover ),
-                            "queue" -> queue()
-                        )
-                    )
-                )
-            ) 
+            ),
+            hub.getPatchCord().through( toEventSource )
         )
     }
 
-    def playSong() = Action {
-        Player.play()
-        Ok("playing")
-    }
-
-    def stopSong() = Action {
-        Player.stop()
-        Ok("stopped")
+    def playingDataJson() = {
+        Player.currentSong.map { song =>
+            Json.toJson(
+                JsObject(
+                    List(
+                        "name" -> JsString( song.name ),
+                        "album" -> JsString( song.album ),
+                        "artist" -> JsString( song.artist ),
+                        "img" -> JsString( currentPict() ),
+                        "queue" -> queue()
+                    )
+                )
+            )
+        } getOrElse(
+            Json.toJson(
+                JsObject(
+                    List(
+                        "name" -> JsString( "Nothing" ),
+                        "album" -> JsString( "" ),
+                        "artist" -> JsString( "" ),
+                        "img" -> JsString( LastFM.emptyCover ),
+                        "queue" -> queue()
+                    )
+                )
+            )
+        )
     }
 
     def updateLibrary() = Action {
         Player.songsQueue.clear
-        Player.songsList = IndexedSeq[Song]()
-        val base = current.configuration.getString( "music.root" )
-            .getOrElse( "/Users/mathieuancelin/Music/iTunes/iTunes Music" )
-        MusicLibraryScanner.scan( base )
+        MusicLibraryScanner.scan( Constants.musicBase )
         Redirect( routes.Application.index() )
     }
 

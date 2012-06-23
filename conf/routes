@@ -3,19 +3,29 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.Application.index
-
+GET     /                               controllers.Application.index
 # Actions
-POST    /enqueue                    controllers.Application.enqueue
-POST    /prequeue                   controllers.Application.prequeue
-POST    /delqueue                   controllers.Application.deletequeue
-POST    /play                       controllers.Application.playSong
-POST    /clear                      controllers.Application.clearQueue
-POST    /stop                       controllers.Application.stopSong
-GET     /redindex                   controllers.Application.updateLibrary
+POST    /enqueue                        controllers.Application.enqueue
+POST    /prequeue                       controllers.Application.prequeue
+POST    /delqueue                       controllers.Application.deletequeue
+GET     /redindex                       controllers.Application.updateLibrary
+
+POST    /commands/play                  controllers.CommandsController.playSong
+POST    /commands/clear                 controllers.CommandsController.clearQueue
+POST    /commands/stop                  controllers.CommandsController.stopSong
+POST    /commands/next                  controllers.CommandsController.nextSong
+
+GET     /files/currentsong              controllers.FilesController.currentSong()
+GET     /files/currentqueue             controllers.FilesController.currentQueue()
+GET     /files/:artist.zip              controllers.FilesController.artist(artist)
+GET     /files/:artist/:album.zip       controllers.FilesController.album(artist, album)
+GET     /files/:artist/:album/:name.mp3 controllers.FilesController.song(artist, album, name)
+GET     /files/:id                      controllers.FilesController.file(id: Long)
 
 #Feedback
-GET     /playing                    controllers.Application.playing
+GET     /monitoring                     controllers.MonitorController.monitorSource()
+GET     /playingSSE                     controllers.Application.playingSSE()
+POST    /uptcli                         controllers.Application.update()
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.at(path="/public", file)
+GET     /assets/*file                   controllers.Assets.at(path="/public", file)

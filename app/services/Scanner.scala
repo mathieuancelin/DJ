@@ -6,6 +6,16 @@ import models._
 import controllers._
 import services._
 import scala.collection.mutable._
+import akka.util.duration._
+import play.api.Play.current
+import play.api.libs._
+import play.api.libs.iteratee._
+import play.api.libs.concurrent._
+import java.util.concurrent._
+import scala.concurrent.stm._
+import akka.util.duration._
+import play.api.cache._
+import play.api.libs.json._
 
 object MusicLibraryScanner {
 
@@ -17,32 +27,44 @@ object MusicLibraryScanner {
 
     val mp3Filter = new FilenameFilter() {
         def accept( f: File, name: String ) = {
-            name.endsWith( ".mp3" )
+            name.toLowerCase.endsWith( ".mp3" )
         }    
     }
 
+    def autoScann( base: String) = {
+        Akka.system.scheduler.schedule( 0 millisecond, 120 seconds ) {
+            scan( base )
+        }
+    }
+
     def scan( base: String ) = {
-        Player.songsList = IndexedSeq[Song]()
         var songsList = IndexedSeq[Song]()
         var index = 0L
-        println("Scan music library at '" + base + "'")
+        print("Scanning music library at '" + base + "' ... ")
+        val start = System.currentTimeMillis()
         Option.apply(new File( base ).list( dirFilter )).foreach { listart => listart.foreach { artist =>
-            println("Found artist " + artist)
             Option.apply(new File( base, artist ).list( dirFilter )).foreach { listal => listal.foreach { album =>
-                println("  found album " + album)
                 Option.apply(new File( base + "/" + artist, album ).list( mp3Filter )).foreach { listso => listso.foreach { song =>
                     if (!song.startsWith(".")) {
-                        println("    found song : " + song)
                         val s = Song(index, new File( base + "/" + artist + "/" + album, song )
-                            .getAbsolutePath(), song, artist, album)
+                            .getAbsolutePath(), song, artist, album, 0L, 0L, 0L)
                         songsList = songsList :+ s
                         index = index + 1
                     }
                 }}
             }}
         }}
-        Player.songsList = songsList.sortWith { (a, b) =>
-            a.path.compareToIgnoreCase(b.path) < 0
+        songsList.foreach { song =>
+            song.createIfNotExistByPath().foreach { s =>
+                println("Persist'" + s.path + "' to database")   
+            }
         }
+        Song.findAll().foreach { song =>
+            if (!new File(song.path).exists) {
+                println("Deleting '" + song.path + "' from database")
+                song.delete()
+            }
+        }
+        println("done (" + (System.currentTimeMillis() - start) + " ms.)")
     }
 }

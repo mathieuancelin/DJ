@@ -10,6 +10,7 @@ import play.api.cache._
 import play.api.Play.current
 import controllers._
 import scala.collection.mutable._
+import util.Constants
 
 case class Done()
 
@@ -19,9 +20,7 @@ case class Stop()
 
 object Player {
 
-    var songsList = IndexedSeq[Song]()
-
-    val playerExec = current.configuration.getString( "player.exec" ).getOrElse( "afplay" )
+    //var songsList = IndexedSeq[Song]()
 
     var currentSong:Option[Song] = None
 
@@ -34,17 +33,21 @@ object Player {
     val player = system.actorOf( Props[PlayerActor], name = "player" )
 
     def enqueue( id: Long ) = {        
-        val song: Song = songsList.filter( _.id == id ).head
-        queuer ! song
+        Song.findById( id ).foreach { song =>
+            queuer ! song
+        }
+        Application.updateClients( )
     }
 
     def prequeue( id: Long ) = {        
-        val song: Song = songsList.filter( _.id == id ).head
-        var tmp = Queue[Song]()
-        tmp.enqueue( song )
-        Player.songsQueue.foreach { tmp.enqueue( _ ) }
-        Player.songsQueue.clear
-        tmp.foreach { Player.songsQueue.enqueue( _ ) }
+        Song.findById( id ).foreach { song =>
+            var tmp = Queue[Song]()
+            tmp.enqueue( song )
+            Player.songsQueue.foreach { tmp.enqueue( _ ) }
+            Player.songsQueue.clear
+            tmp.foreach { Player.songsQueue.enqueue( _ ) }
+        }
+        Application.updateClients( )
     }
 
     def play() = {
@@ -61,14 +64,17 @@ class PlayQueueActor extends Actor with ActorLogging {
     def receive = {
         case s: Song => {
             Player.songsQueue.enqueue( s )
+            Application.updateClients( )
         }
         case d: Done => {
             if ( Player.songsQueue.nonEmpty ) {
                 Player.player ! Play()
             }
+            Application.updateClients( )
         }
         case s: Stop => {
-            Runtime.getRuntime().exec( "killall " + Player.playerExec + " > /dev/null 2>&1" )
+            Runtime.getRuntime().exec( "killall " + Constants.playerExec + " > /dev/null 2>&1" )
+            Application.updateClients( )
         }
     }
 }
@@ -80,13 +86,15 @@ class PlayerActor extends Actor with ActorLogging {
             if ( Player.songsQueue.nonEmpty ) {
                 val song = Player.songsQueue.dequeue()
                 Player.currentSong = Option.apply( song.copy() )
-                val command = Array[String]( Player.playerExec, song.path )
+                val command = Array[String]( Constants.playerExec, song.path )
+                Application.updateClients( )
                 var process = Runtime.getRuntime().exec( command )
                 val ret = process.waitFor()
                 if ( ret == 0 ) {
                     Player.queuer ! Done()
                 }
                 Player.currentSong = None
+                Application.updateClients( )
             }
         }
     }
