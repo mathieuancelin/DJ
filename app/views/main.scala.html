@@ -69,6 +69,7 @@
                                 </div>
                             </div>
                         </fieldset>
+                        <div id="wait"><img src="@routes.Assets.at("images/wait.gif")"></div>
                         </div>
                         <div class="modal-footer">
                             <input class="btn btn-primary" id="submit" type="submit" value="Upload" />
@@ -115,7 +116,11 @@
                 $('#inputArtist').val("")
                 $('#inputAlbum').val("")
                 validate()
+                $('#wait').hide()
                 $('#songupload').modal()
+            })
+            $('#uploadafile submit').click(function(e) {
+                $('#wait').show()
             })
             $('#showaboutmodal').click(function(e) {
                 e.preventDefault()
