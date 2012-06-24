@@ -28,7 +28,7 @@ object Application extends Controller {
             { maybeIdValue =>
                 val id = Option.apply( maybeIdValue ).map( toL( _ ) ).getOrElse( toL( -1 ) )
                 Player.enqueue( id )
-                updateClients( "'" + Song.findById( id ).map( _.name ).getOrElse("Undefined")  + "' has been added to the queue." )
+                updateClients( "'" + Song.findById( id ).map( _.name ).getOrElse("Undefined")  + "' has been added to the queue by " + request.headers.get(play.api.http.HeaderNames.FROM).getOrElse("Unknown") )
                 Ok( "enqueued" )
             }
         )
@@ -40,7 +40,7 @@ object Application extends Controller {
             { maybeIdValue =>
                 val id = Option.apply( maybeIdValue ).map( toL( _ ) ).getOrElse( toL( -1 ) )
                 Player.prequeue( id )
-                updateClients( "'" + Song.findById( id ).map( _.name ).getOrElse("Undefined")  + "' has been added on top of the queue." )
+                updateClients( "'" + Song.findById( id ).map( _.name ).getOrElse("Undefined")  + "' has been added on top of the queue by " + request.headers.get(play.api.http.HeaderNames.FROM).getOrElse("Unknown") )
                 Ok( "prequeued " )
             }
         )
@@ -54,7 +54,7 @@ object Application extends Controller {
                 val newQueue = Player.songsQueue.filter( _.id != id )
                 Player.songsQueue.clear
                 newQueue.foreach { Player.songsQueue.enqueue( _ ) }
-                updateClients( "'" + Song.findById( id ).map( _.name ).getOrElse("Undefined")  + "' has been removed from the queue." )
+                updateClients( "'" + Song.findById( id ).map( _.name ).getOrElse("Undefined")  + "' has been removed from the queue by " + request.headers.get(play.api.http.HeaderNames.FROM).getOrElse("Unknown") )
                 Ok( "deleted" )
             }
         )
