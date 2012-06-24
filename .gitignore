@@ -5,3 +5,6 @@ target
 tmp
 .history
 .DS_Store
+dj.h2.db
+dj.lock.db
+dj.trace.db
