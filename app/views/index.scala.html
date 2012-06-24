@@ -27,9 +27,9 @@
         <a href="#" id="stop" class="btn btn-danger"><i class="icon-stop icon-white"></i></a>
         <a href="#" id="clear" class="btn btn-primary"><i class="icon-remove icon-white"></i></a>
         <br/>    <br/>
-        <a href="@routes.FilesController.currentSong()" id="download" class="btn btn-inverse"><i class="icon-download icon-white"></i></a>
-        <a href="@routes.FilesController.currentQueue()" id="downloadall" class="btn btn-inverse"><i class="icon-list-alt icon-white"></i></a>
-        <a href="#" id="saveplaylist" class="btn btn-inverse"><i class="icon-hdd icon-white"></i></a>
+        <a href="@routes.FilesController.currentSong()" id="download" class="btn btn-inverse" title="Download current song"><i class="icon-download icon-white"></i></a>
+        <a href="@routes.FilesController.currentQueue()" id="downloadall" class="btn btn-inverse"  title="Download current queue"><i class="icon-list-alt icon-white"></i></a>
+        <!-- <a href="#" id="saveplaylist" class="btn btn-inverse"><i class="icon-hdd icon-white"></i></a>   -->
         <br/><br/>
         <h2>Song Queue</h2><br/>
         <script type="text/html" id="queue_tmpl">
@@ -191,7 +191,7 @@
             });
             $("#library").tablesorter()
             DJ.log("Ready to go !!!")
-            setTimeout(openSSEConnection, 1000)
+            setTimeout(openSSEConnection,400)
         });
     </script>
 </div>

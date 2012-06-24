@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3712ca1d-0a1d-4e48-b978-bc159afc0c9b" name="Default" comment="">
-      <change type="MOVED" beforePath="$PROJECT_DIR$/CLI/dj.sh" afterPath="$PROJECT_DIR$/CLI/dj" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DJ.mindnode" afterPath="$PROJECT_DIR$/DJ.mindnode" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DJ.iws" afterPath="$PROJECT_DIR$/DJ.iws" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/index.scala.html" afterPath="$PROJECT_DIR$/app/views/index.scala.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/main.scala.html" afterPath="$PROJECT_DIR$/app/views/main.scala.html" />
@@ -64,19 +62,28 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="main.scala.html" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="main.scala.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/main.scala.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="105" column="86" selection-start="7780" selection-end="7780" vertical-scroll-proportion="0.34155598">
+            <state line="101" column="37" selection-start="7534" selection-end="7534" vertical-scroll-proportion="13.666667">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.scala.html" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="monitor.scala.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/views/monitor.scala.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="153" column="26" selection-start="6220" selection-end="6220" vertical-scroll-proportion="-90.375">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.scala.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/views/index.scala.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="59" column="26" selection-start="2521" selection-end="2528" vertical-scroll-proportion="14.291667">
+            <state line="193" column="42" selection-start="7603" selection-end="7603" vertical-scroll-proportion="0.772296">
               <folding />
             </state>
           </provider>
@@ -109,8 +116,8 @@
         <option value="$PROJECT_DIR$/app/views/monitor.scala.html" />
         <option value="$PROJECT_DIR$/app/assets/stylesheets/monitor.less" />
         <option value="$PROJECT_DIR$/app/monitoring/Reporting.scala" />
-        <option value="$PROJECT_DIR$/app/views/index.scala.html" />
         <option value="$PROJECT_DIR$/app/views/main.scala.html" />
+        <option value="$PROJECT_DIR$/app/views/index.scala.html" />
       </list>
     </option>
   </component>
@@ -352,48 +359,6 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="public" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="DJ" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="DJ" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="conf" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="DJ" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="DJ" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="CLI" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="DJ" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="DJ" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="app" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -503,50 +468,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="controllers" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="DJ" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="DJ" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="assets" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="stylesheets" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="DJ" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="DJ" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="assets" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="javascripts" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -902,13 +823,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/controllers/ChatController.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="7" selection-start="435" selection-end="435" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Global.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state line="8" column="42" selection-start="185" selection-end="185" vertical-scroll-proportion="0.21276596">
@@ -974,13 +888,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/monitor.scala.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="153" column="26" selection-start="6220" selection-end="6220" vertical-scroll-proportion="-45.9">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/monitor.less">
       <provider selected="true" editor-type-id="text-editor">
         <state line="1" column="23" selection-start="30" selection-end="30" vertical-scroll-proportion="0.0">
@@ -995,13 +902,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/index.scala.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="59" column="26" selection-start="2521" selection-end="2528" vertical-scroll-proportion="14.291667">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/CLI/dj">
       <provider selected="true" editor-type-id="text-editor">
         <state line="84" column="75" selection-start="1598" selection-end="1598" vertical-scroll-proportion="2.2340426">
@@ -1009,9 +909,30 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/monitoring/CPU.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="57" selection-start="695" selection-end="695" vertical-scroll-proportion="0.55851066">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/monitor.scala.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="153" column="26" selection-start="6220" selection-end="6220" vertical-scroll-proportion="-90.375">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/views/main.scala.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="105" column="86" selection-start="7780" selection-end="7780" vertical-scroll-proportion="0.34155598">
+        <state line="101" column="37" selection-start="7534" selection-end="7534" vertical-scroll-proportion="13.666667">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/index.scala.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="193" column="42" selection-start="7603" selection-end="7603" vertical-scroll-proportion="0.772296">
           <folding />
         </state>
       </provider>
