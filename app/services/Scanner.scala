@@ -66,5 +66,6 @@ object MusicLibraryScanner {
             }
         }
         println("done (" + (System.currentTimeMillis() - start) + " ms.)")
+        Application.updateClients( "Music library has been scanned in " + (System.currentTimeMillis() - start) + " ms." )
     }
 }

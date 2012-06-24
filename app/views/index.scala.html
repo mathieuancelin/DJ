@@ -157,13 +157,13 @@
         function openSSEConnection() {
             var pushSource = new EventSource( '@routes.Application.playingSSE()' )
             pushSource.onopen = function(e) {
-                console.log("[INFO] Monitoring event source opened !")
+                console.log("[INFO] SSE channel opened !")
             }
             pushSource.onerror = function(e) {
                 if (pushSource.readyState == EventSource.CLOSED) {
-                    console.log("[INFO] Monitoring event source closed !")
+                    console.log("[INFO] SSE channel closed !")
                 } else {
-                    console.log("[ERROR] Monitoring event source error : %s", e)
+                    console.log("[ERROR] SSE channel error : %s", e)
                 }
             }
             pushSource.onmessage = function ( event ) {

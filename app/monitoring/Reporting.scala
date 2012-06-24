@@ -17,12 +17,16 @@ object Reporting {
     val osStats = ManagementFactory.getOperatingSystemMXBean
     val threadStats = ManagementFactory.getThreadMXBean
     val memoryStats = ManagementFactory.getMemoryMXBean
+
+    val classloading = ManagementFactory.getClassLoadingMXBean
+    val compilation = ManagementFactory.getCompilationMXBean
+
     val cpuStats = new CPU()
 
     val toEventSource = Enumeratee.map[String] { msg => "data: " + msg + "\n\n" }
 
     val monitoringEnumerator = Enumerator.fromCallback{ () =>
-        Promise.timeout( Some( data() ), 1000, TimeUnit.MILLISECONDS )
+        Promise.timeout( Some( data() ), 400, TimeUnit.MILLISECONDS )
     }
 
     def update() = {

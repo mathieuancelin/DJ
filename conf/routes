@@ -24,6 +24,7 @@ GET     /files/:id                      controllers.FilesController.file(id: Lon
 
 #Feedback
 GET     /monitoring                     controllers.MonitorController.monitorSource()
+GET     /monitor                        controllers.MonitorController.monitor()
 GET     /playingSSE                     controllers.Application.playingSSE()
 POST    /uptcli                         controllers.Application.update()
 
