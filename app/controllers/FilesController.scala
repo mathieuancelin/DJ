@@ -74,6 +74,7 @@ object FilesController extends Controller {
                             val song = new File(albumDir, filename)
                             if (!song.exists()) {
                                 file.ref.moveTo(song)
+                                Application.updateClients( "New MP3 '" + song.getName + "' has been uploaded to the library" )
                             }
                         }
                     }

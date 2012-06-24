@@ -34,6 +34,7 @@
     <option name="SUGGEST_TYPE_AWARE_HIGHLIGHTING" value="false" />
     <option name="TYPE_AWARE_HIGHLIGHTING_ENABLED" value="true" />
   </component>
+  <component name="IdProvider" IDEtalkID="75F883D1BF94E21AE8339C716D7E3CD1" />
   <component name="LanguageInjectionConfiguration">
     <injection language="Scala" injector-id="xml">
       <display-name>script</display-name>
@@ -175,5 +176,6 @@
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
   </component>
+  <component name="WebServicesPlugin" addRequiredLibraries="true" />
 </project>
 

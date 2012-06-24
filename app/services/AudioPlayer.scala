@@ -74,7 +74,7 @@ class PlayQueueActor extends Actor with ActorLogging {
         }
         case s: Stop => {
             Runtime.getRuntime().exec( "killall " + Constants.playerExec + " > /dev/null 2>&1" )
-            Application.updateClients( )
+            Application.updateClients( "Stopping ..." )
         }
     }
 }
@@ -87,7 +87,7 @@ class PlayerActor extends Actor with ActorLogging {
                 val song = Player.songsQueue.dequeue()
                 Player.currentSong = Option.apply( song.copy() )
                 val command = Array[String]( Constants.playerExec, song.path )
-                Application.updateClients( )
+                Application.updateClients( "Playing '" + song.name + "' by " + song.artist + " from " + song.album)
                 var process = Runtime.getRuntime().exec( command )
                 val ret = process.waitFor()
                 if ( ret == 0 ) {

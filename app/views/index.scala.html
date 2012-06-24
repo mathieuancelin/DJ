@@ -194,6 +194,12 @@
                     }
                 ))
             }
+            if (data.notification != undefined) {
+                if (data.notification != "") {
+                    noty({layout: 'bottomRight', theme: 'noty_theme_twitter',
+                        type :'success', text: data.notification, timeout : 3000 })
+                }
+            }
         }
         $(document).ready(function () {
             $("#id_search").quicksearch("#library tbody tr", {

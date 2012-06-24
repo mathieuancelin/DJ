@@ -28,7 +28,7 @@ object Application extends Controller {
             { maybeIdValue =>
                 val id = Option.apply( maybeIdValue ).map( toL( _ ) ).getOrElse( toL( -1 ) )
                 Player.enqueue( id )
-                updateClients( )
+                updateClients( "'" + Song.findById( id ).map( _.name ).getOrElse("Undefined")  + "' has been added to the queue." )
                 Ok( "enqueued" )
             }
         )
@@ -40,7 +40,7 @@ object Application extends Controller {
             { maybeIdValue =>
                 val id = Option.apply( maybeIdValue ).map( toL( _ ) ).getOrElse( toL( -1 ) )
                 Player.prequeue( id )
-                updateClients( )
+                updateClients( "'" + Song.findById( id ).map( _.name ).getOrElse("Undefined")  + "' has been added on top of the queue." )
                 Ok( "prequeued " )
             }
         )
@@ -54,7 +54,7 @@ object Application extends Controller {
                 val newQueue = Player.songsQueue.filter( _.id != id )
                 Player.songsQueue.clear
                 newQueue.foreach { Player.songsQueue.enqueue( _ ) }
-                updateClients( )
+                updateClients( "'" + Song.findById( id ).map( _.name ).getOrElse("Undefined")  + "' has been removed from the queue." )
                 Ok( "deleted" )
             }
         )
@@ -70,8 +70,8 @@ object Application extends Controller {
 
     val hub = Concurrent.hub[JsValue]( hubEnumerator )
 
-    def updateClients(): Unit = {
-        hubEnumerator.push( playingDataJson() )
+    def updateClients( notification: String = "" ): Unit = {
+        hubEnumerator.push( playingDataJson( notification ) )
     }
 
     def update( ) = Action {
@@ -92,7 +92,7 @@ object Application extends Controller {
         )
     }
 
-    def playingDataJson() = {
+    def playingDataJson(notification: String = "") = {
         Player.currentSong.map { song =>
             Json.toJson(
                 JsObject(
@@ -101,6 +101,7 @@ object Application extends Controller {
                         "album" -> JsString( song.album ),
                         "artist" -> JsString( song.artist ),
                         "img" -> JsString( currentPict() ),
+                        "notification" -> JsString( notification ),
                         "queue" -> queue()
                     )
                 )
@@ -113,6 +114,7 @@ object Application extends Controller {
                         "album" -> JsString( "" ),
                         "artist" -> JsString( "" ),
                         "img" -> JsString( LastFM.emptyCover ),
+                        "notification" -> JsString( notification ),
                         "queue" -> queue()
                     )
                 )
@@ -130,7 +132,7 @@ object Application extends Controller {
                 Player.songsQueue.enqueue( song )
             }
         }
-        updateClients()
+        updateClients( "Music library has just been updated" )
         Redirect( routes.Application.index() )
     }
 

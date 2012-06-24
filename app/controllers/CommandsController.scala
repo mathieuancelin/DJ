@@ -15,23 +15,26 @@ object CommandsController extends Controller {
 
     def clearQueue() = Action {
         Player.songsQueue.clear
-        Application.updateClients( )
+        Application.updateClients( "The queue has been cleared" )
         Ok( "cleared" )
     }
 
     def playSong() = Action {
         Player.play()
+        //Application.updateClients( "Playing ..." )
         Ok("playing")
     }
 
     def nextSong() = Action {
         Player.stop()
         Player.play()
+        //Application.updateClients( "Next song ..." )
         Ok("playing")
     }
 
     def stopSong() = Action {
         Player.stop()
+        //Application.updateClients( "Stopping ..." )
         Ok("stopped")
     }
 }

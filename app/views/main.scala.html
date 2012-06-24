@@ -30,12 +30,12 @@
                 <div class="container">
                     <h1><a href="@routes.Application.index()" class="brand">DJ</a></h1>
                     <ul class="nav">
-                        <li><a href="#">Playlists</a></li>
+                        <!--<li><a href="#">Playlists</a></li>  -->
                         <li><a href="#" id="uploadafile">Upload MP3s</a></li>
-                        <li><a href="#">Chat</a></li>
+                        <!--<li><a href="#">Chat</a></li>     -->
                         <li><a href="@routes.Application.updateLibrary()">Update library</a></li>
-                        <li><a href="#">About</a></li>
-                        <li><a href="#">Monitor</a></li>
+                        <li><a href="#" id="showaboutmodal">About</a></li>
+                        <!--<li><a href="#">Monitor</a></li>   -->
                         <li><a href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(@models.Song.count() songs)</a></li>
                     </ul>
                 </div>
@@ -79,6 +79,22 @@
                         </div>
                     </form>
                 </div>
+                <div id="aboutmodal" class="modal hide">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">×</button>
+                        <h3>About DJ</h3>
+                    </div>
+                        <div class="modal-body">
+                            <p>
+                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vestibulum semper nulla, non sollicitudin odio rhoncus sit amet. Morbi elementum vestibulum lectus ac condimentum. Suspendisse auctor tortor nec nulla consequat dignissim. Nam a massa id orci mollis adipiscing. Maecenas congue consectetur bibendum. Duis facilisis nisi non sem dictum ut feugiat lectus placerat. Donec augue dolor, accumsan at venenatis quis, volutpat ac turpis. Duis eget ligula ut leo gravida pharetra rutrum ac sapien. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tempor vehicula nisi non varius. Aliquam in dolor arcu, sed malesuada velit. Quisque mi magna, pellentesque et placerat at, congue eu lacus. Morbi vel volutpat nisi. Vestibulum porta porta cursus.
+                            </p><p>
+                                Aliquam pharetra ultricies turpis, in imperdiet urna dapibus nec. Nunc mauris ligula, viverra et bibendum sit amet, rutrum et arcu. Mauris fringilla consectetur metus vitae adipiscing. Sed orci ante, gravida sit amet tincidunt ac, ultricies vel sapien. Sed tempor tempus molestie. In eu massa ac nisi luctus ultrices vel sit amet lorem. Duis pretium nisi in purus adipiscing sollicitudin. Donec eu turpis velit, quis egestas erat. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <a href="#" class="btn btn-primary" data-dismiss="modal">Ok</a>
+                        </div>
+                </div>
                 @content
             </div>
         </div>
@@ -89,6 +105,10 @@
                 $('#inputAlbum').val("")
                 validate()
                 $('#songupload').modal()
+            })
+            $('#showaboutmodal').click(function(e) {
+                e.preventDefault()
+                $('#aboutmodal').modal()
             })
             $('#cancelupload').click(function(e) {
                 $('#inputArtist').val("")
