@@ -23,6 +23,7 @@
                     <h1><a href="@routes.Application.index()" class="brand">DJ</a></h1>
                     <ul class="nav">
                         <li><a href="#">Playlists</a></li>
+                        <li><a href="#" id="uploadafile">Upload MP3s</a></li>
                         <li><a href="#">Chat</a></li>
                         <li><a href="@routes.Application.updateLibrary()">Update library</a></li>
                         <li><a href="#">About</a></li>
@@ -33,11 +34,53 @@
               </div>
             </div>
             <div class="container-fluid">
+                <div id="songupload" style="display: none; ">
+                    <form action="@{routes.FilesController.upload()}" method="post" class="form-horizontal" enctype="multipart/form-data">
+                        <fieldset>
+                            <legend>Set the following values</legend>
+                            <div id="artistGroup" class="control-group">
+                                <label class="control-label" for="inputArtist">Artist:</label>
+                                <div class="controls">
+                                    <input type="text" class="input-xlarge" name="inputArtist" id="inputArtist" placeholder="A Perfect Circle"/>
+                                    <p class="help-block">Set artist name</p>
+                                </div>
+                            </div>
+                            <div id="albumGroup" class="control-group">
+                                <label class="control-label" for="inputAlbum">Album:</label>
+                                <div class="controls">
+                                    <input type="text" class="input-xlarge" name="inputAlbum" id="inputAlbum" placeholder="Mer de noms"/>
+                                    <p class="help-block">Set album name</p>
+                                </div>
+                            </div>
+                            <div id="filesGroup" class="control-group">
+                                <label class="control-label" for="inputFiles">MP3s:</label>
+                                <div class="controls">
+                                    <input type="file" draggable="true" name="files" id="inputFiles" multiple="multiple"/>
+                                    <p class="help-block">Select files you want to upload</p>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <div>
+                            <input class="btn btn-primary" id="submit" type="submit" value="Upload" />
+                            <a href="#" id="cancelupload" class="btn btn-danger">Annuler</a>
+                        </div>
+                    </form>
+                </div>
                 @content
-                <!--<div class="row-fluid">
-                    
-                </div>-->
             </div>
         </div>
+        <script type="text/javascript">
+            $('#uploadafile').click(function(e) {
+                e.preventDefault()
+                $('#songupload').show()
+            })
+            $('#cancelupload').click(function(e) {
+                e.preventDefault()
+                $('#inputArtist').val("")
+                $('#inputAlbum').val("")
+                $('#inputFiles').val("")
+                songupload.hide()
+            })
+        </script>
     </body>
 </html>

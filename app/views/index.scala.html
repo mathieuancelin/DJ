@@ -99,13 +99,13 @@
                     <a href="@song.id" class="play-queue btn btn-inverse" title="Add to play queue"><i class="icon-plus-sign icon-white "></i></a>
                 </td>
                 <td style="width: 400px">
-                    <a href="@routes.FilesController.file(song.id)">@song.name</a>
+                    <p></p><a href="@routes.FilesController.file(song.id)">@song.name</a></p>
                 </td>
                 <td style="width: 150px">
-                    <a href="@routes.FilesController.album(song.artist, song.album)">@song.album</a>
+                    <p><a href="@routes.FilesController.album(song.artist, song.album)">@song.album</a></p>
                 </td>
                 <td style="width: 150px">
-                    <a href="@routes.FilesController.artist(song.artist)">@song.artist</a>
+                    <p><a href="@routes.FilesController.artist(song.artist)">@song.artist</a></p>
                 </td>
             </tr>
         }

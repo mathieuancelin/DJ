@@ -1,7 +1,7 @@
 package controllers
 
 import play.api._
-import play.api.mvc._
+import mvc._
 import play.api.data.Forms._
 import play.api.data._
 import models._
@@ -18,6 +18,7 @@ import play.api.cache._
 import play.api.libs.json._
 import java.io.File
 import util.{Constants, ZipUtils}
+import java.util
 
 
 object FilesController extends Controller {
@@ -47,6 +48,59 @@ object FilesController extends Controller {
             }
         }
     }
+
+    val uploadForm = Form( tuple( "inputArtist" -> text, "inputAlbum" -> text ) )
+
+    def upload() = Action(parse.anyContent) { implicit request =>
+        uploadForm.bindFromRequest.fold (
+            formWithErrors => BadRequest( "You need to post an 'artist' and 'album' value!" ),
+            { value =>
+                val artist = value._1
+                val album = value._2
+                if (!artist.isEmpty && !album.isEmpty) {
+                    request.body.asMultipartFormData.headOption.map { m =>
+                        m.files.map { file =>
+                            import java.io.File
+                            val filename = file.filename
+                            val contentType = file.contentType
+                            val artistDir = new File(Constants.musicBase, artist)
+                            if (!artistDir.exists()) {
+                                artistDir.mkdirs()
+                            }
+                            val albumDir = new File(artistDir, album)
+                            if (!albumDir.exists()) {
+                                albumDir.mkdirs()
+                            }
+                            val song = new File(albumDir, filename)
+                            if (!song.exists()) {
+                                file.ref.moveTo(song)
+                            }
+                        }
+                    }
+                    MusicLibraryScanner.scan( Constants.musicBase )
+                }
+                Redirect( routes.Application.index() )
+            }
+        )
+    }
+
+    /**def upload() = Action(parse.multipartFormData) { implicit request =>
+        uploadForm.bindFromRequest.fold (
+            formWithErrors => BadRequest( "You need to post an 'artist' and 'album' value!" ),
+            { value =>
+                val artist = value._1
+                val album = value._2
+                println("upload files " + request.body.file("files").size + " for " + artist + " " + album)
+                request.body.file("files").foreach { file =>
+                    import java.io.File
+                    val filename = file.filename
+                    val contentType = file.contentType
+                    file.ref.moveTo(new File("/tmp/" + artist + "/" + album + "/" + filename))
+                }
+                Redirect( routes.Application.index() )
+            }
+        )
+    }**/
 
     def file(id: Long) = Action { implicit request =>
         createTmpRootIfNotExists()
