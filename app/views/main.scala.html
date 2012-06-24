@@ -13,6 +13,9 @@
         <script src="@routes.Assets.at("javascripts/jquery.tablesorter.min.js")" type="text/javascript"></script>
         <script src="@routes.Assets.at("javascripts/mustache.js")" type="text/javascript"></script>
         <script src="@routes.Assets.at("javascripts/main.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.at("bootstrap/js/bootstrap.min.js")" type="text/javascript"></script>
+        <script src="@routes.Assets.at("bootstrap/js/bootstrap-modal.js")" type="text/javascript"></script>
+
         <!--<script src="@routes.Assets.at("javascripts/jquery.tablesorter.pager.js")" type="text/javascript"></script>-->
     </head>
     <body>
@@ -34,10 +37,14 @@
               </div>
             </div>
             <div class="container-fluid">
-                <div id="songupload" style="display: none; ">
+                <div id="songupload" class="modal hide">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">×</button>
+                        <h3>Upload MP3s</h3>
+                    </div>
                     <form action="@{routes.FilesController.upload()}" method="post" class="form-horizontal" enctype="multipart/form-data">
+                        <div class="modal-body">
                         <fieldset>
-                            <legend>Set the following values</legend>
                             <div id="artistGroup" class="control-group">
                                 <label class="control-label" for="inputArtist">Artist:</label>
                                 <div class="controls">
@@ -60,9 +67,10 @@
                                 </div>
                             </div>
                         </fieldset>
-                        <div>
+                        </div>
+                        <div class="modal-footer">
                             <input class="btn btn-primary" id="submit" type="submit" value="Upload" />
-                            <a href="#" id="cancelupload" class="btn btn-danger">Annuler</a>
+                            <a href="#" id="cancelupload" class="btn btn-danger" data-dismiss="modal">Annuler</a>
                         </div>
                     </form>
                 </div>
@@ -72,14 +80,12 @@
         <script type="text/javascript">
             $('#uploadafile').click(function(e) {
                 e.preventDefault()
-                $('#songupload').show()
+                $('#songupload').modal()
             })
             $('#cancelupload').click(function(e) {
-                e.preventDefault()
                 $('#inputArtist').val("")
                 $('#inputAlbum').val("")
                 $('#inputFiles').val("")
-                songupload.hide()
             })
         </script>
     </body>

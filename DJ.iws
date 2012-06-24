@@ -4,11 +4,7 @@
     <list default="true" id="3712ca1d-0a1d-4e48-b978-bc159afc0c9b" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DJ.mindnode" afterPath="$PROJECT_DIR$/DJ.mindnode" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dj.h2.db" afterPath="$PROJECT_DIR$/dj.h2.db" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DJ.iws" afterPath="$PROJECT_DIR$/DJ.iws" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/FilesController.scala" afterPath="$PROJECT_DIR$/app/controllers/FilesController.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/index.scala.html" afterPath="$PROJECT_DIR$/app/views/index.scala.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/main.scala.html" afterPath="$PROJECT_DIR$/app/views/main.scala.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/conf/routes" afterPath="$PROJECT_DIR$/conf/routes" />
     </list>
     <ignored path="DJ.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -69,7 +65,7 @@
       <file leaf-file-name="main.scala.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/views/main.scala.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="25" column="68" selection-start="1489" selection-end="1489" vertical-scroll-proportion="0.65844405">
+            <state line="85" column="0" selection-start="5021" selection-end="5021" vertical-scroll-proportion="0.62998104">
               <folding />
             </state>
           </provider>
@@ -918,7 +914,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/main.scala.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="68" selection-start="1489" selection-end="1489" vertical-scroll-proportion="0.65844405">
+        <state line="85" column="0" selection-start="5021" selection-end="5021" vertical-scroll-proportion="0.62998104">
           <folding />
         </state>
       </provider>
