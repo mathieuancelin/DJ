@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3712ca1d-0a1d-4e48-b978-bc159afc0c9b" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DJ.mindnode" afterPath="$PROJECT_DIR$/DJ.mindnode" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dj.h2.db" afterPath="$PROJECT_DIR$/dj.h2.db" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/main.scala.html" afterPath="$PROJECT_DIR$/app/views/main.scala.html" />
     </list>
@@ -65,7 +64,7 @@
       <file leaf-file-name="main.scala.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/views/main.scala.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="85" column="0" selection-start="5021" selection-end="5021" vertical-scroll-proportion="0.62998104">
+            <state line="10" column="110" selection-start="519" selection-end="519" vertical-scroll-proportion="0.28462997">
               <folding />
             </state>
           </provider>
@@ -914,7 +913,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/main.scala.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="85" column="0" selection-start="5021" selection-end="5021" vertical-scroll-proportion="0.62998104">
+        <state line="10" column="110" selection-start="519" selection-end="519" vertical-scroll-proportion="0.28462997">
           <folding />
         </state>
       </provider>
