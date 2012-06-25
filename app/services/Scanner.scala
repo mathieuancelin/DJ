@@ -62,7 +62,9 @@ object MusicLibraryScanner {
                     i = i + 1
                 }
             }
-            Application.updateClients( "Persisted '" + i + "' song(s) in database" )
+            if (i > 0) {
+                Application.updateClients( "Persisted '" + i + "' song(s) in database" )
+            }
             i = 0
             Song.findAll().foreach { song =>
                 if (!new File(song.path).exists) {
@@ -70,7 +72,9 @@ object MusicLibraryScanner {
                     i = i + 1
                 }
             }
-            Application.updateClients( "Deleted '" + i + "' song(s) from database" )
+            if (i > 0) {
+                Application.updateClients( "Deleted '" + i + "' song(s) from database" )
+            }
             println("done (" + (System.currentTimeMillis() - start) + " ms.)")
             Application.updateClients( "Music library has been scanned in " + (System.currentTimeMillis() - start) + " ms.", "updatelib" )
         }
