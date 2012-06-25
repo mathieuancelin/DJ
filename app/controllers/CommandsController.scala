@@ -56,4 +56,14 @@ object CommandsController extends Controller {
         )
         Ok
     }
+
+    def volumeUp() = Action { implicit request =>
+        Player.volumeUp()
+        Ok
+    }
+
+    def volumeDown() = Action { implicit request =>
+        Player.volumeDown()
+        Ok
+    }
 }

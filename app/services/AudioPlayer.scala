@@ -57,6 +57,26 @@ object Player {
     def stop() = {
         queuer ! Stop()
     }
+
+    var volume = 100
+
+    def volumeUp() = {
+        if (volume < 100) {
+            volume = volume + 10
+        }
+        Application.updateClients( "Volume is " + volume )
+        var command = Array[String]( "/usr/bin/amixer", "set", "Headphone", volume + "%" )
+        Runtime.getRuntime().exec( command ).waitFor()
+    }
+
+    def volumeDown() = {
+        if (volume > 0) {
+            volume = volume - 10
+        }
+        Application.updateClients( "Volume is " + volume )
+        var command = Array[String]( "/usr/bin/amixer", "set", "Headphone", volume + "%" )
+        Runtime.getRuntime().exec( command ).waitFor()
+    }
 }
 
 class PlayQueueActor extends Actor with ActorLogging {

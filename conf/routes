@@ -19,6 +19,8 @@ POST    /commands/next                  controllers.CommandsController.nextSong
 POST    /commands/updtlist              controllers.CommandsController.updateLibraryList()
 POST    /commands/updtplaying           controllers.CommandsController.updatePlaying()
 POST    /commands/say                   controllers.CommandsController.say()
+POST    /commands/volumeup              controllers.CommandsController.volumeUp()
+POST    /commands/volumedown            controllers.CommandsController.volumeDown()
 
 GET     /files/currentsong              controllers.FilesController.currentSong()
 GET     /files/currentqueue             controllers.FilesController.currentQueue()
