@@ -4,16 +4,21 @@
 
 # Home page
 GET     /                               controllers.Application.index
+
 # Actions
 POST    /enqueue                        controllers.Application.enqueue
 POST    /prequeue                       controllers.Application.prequeue
 POST    /delqueue                       controllers.Application.deletequeue
 GET     /redindex                       controllers.Application.updateLibrary
+GET     /redindexasync                  controllers.Application.updateLibraryAsync
 
 POST    /commands/play                  controllers.CommandsController.playSong
 POST    /commands/clear                 controllers.CommandsController.clearQueue
 POST    /commands/stop                  controllers.CommandsController.stopSong
 POST    /commands/next                  controllers.CommandsController.nextSong
+POST    /commands/updtlist              controllers.CommandsController.updateLibraryList()
+POST    /commands/updtplaying           controllers.CommandsController.updatePlaying()
+POST    /commands/say                   controllers.CommandsController.say()
 
 GET     /files/currentsong              controllers.FilesController.currentSong()
 GET     /files/currentqueue             controllers.FilesController.currentQueue()
@@ -26,7 +31,6 @@ GET     /files/:id                      controllers.FilesController.file(id: Lon
 GET     /monitoring                     controllers.MonitorController.monitorSource()
 GET     /monitor                        controllers.MonitorController.monitor()
 GET     /playingSSE                     controllers.Application.playingSSE()
-POST    /uptcli                         controllers.Application.update()
 
 POST    /upload                         controllers.FilesController.upload()
 

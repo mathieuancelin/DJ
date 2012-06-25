@@ -30,6 +30,34 @@ function clear()
 	return;
 }
 
+function monitoring()
+{
+	curl $DJ_URL/monitoring
+	return;
+}
+
+function updtplaying()
+{
+	curl -X POST -o /dev/null $DJ_URL/commands/updtplaying -s
+	echo "Update playing on $DJ_URL/commands/updtplaying"
+	return;
+}
+
+function updtlist()
+{
+	curl -X POST -o /dev/null $DJ_URL/commands/updtlist -s
+	echo "Update library list on $DJ_URL/commands/updtlist"
+	return;
+}
+
+function say()
+{
+    MESSAGE=$1
+	curl -X POST -d "message=$MESSAGE" -o /dev/null $DJ_URL/commands/say -s
+	echo "Clearing the queue on $DJ_URL/commands/say"
+	return;
+}
+
 function echoStart()
 {
 	echo " "
@@ -77,6 +105,22 @@ case $1 in
  clear)
   echoStart
   clear $2
+  ;;
+ monitoring)
+  echoStart
+  monitoring $2
+  ;;
+ say)
+  echoStart
+  say $2
+  ;;
+ updtlist)
+  echoStart
+  updtlist $2
+  ;;
+ updtplaying)
+  echoStart
+  updtplaying $2
   ;;
  --help)
   displayHelp

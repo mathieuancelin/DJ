@@ -38,34 +38,36 @@ object MusicLibraryScanner {
     }
 
     def scan( base: String ) = {
-        var songsList = IndexedSeq[Song]()
-        var index = 0L
-        print("Scanning music library at '" + base + "' ... ")
-        val start = System.currentTimeMillis()
-        Option.apply(new File( base ).list( dirFilter )).foreach { listart => listart.foreach { artist =>
-            Option.apply(new File( base, artist ).list( dirFilter )).foreach { listal => listal.foreach { album =>
-                Option.apply(new File( base + "/" + artist, album ).list( mp3Filter )).foreach { listso => listso.foreach { song =>
-                    if (!song.startsWith(".")) {
-                        val s = Song(index, new File( base + "/" + artist + "/" + album, song )
-                            .getAbsolutePath(), song, artist, album, 0L, 0L, 0L)
-                        songsList = songsList :+ s
-                        index = index + 1
-                    }
+        Akka.system.scheduler.scheduleOnce(0 millisecond) {
+            var songsList = IndexedSeq[Song]()
+            var index = 0L
+            print("Scanning music library at '" + base + "' ... ")
+            val start = System.currentTimeMillis()
+            Option.apply(new File( base ).list( dirFilter )).foreach { listart => listart.foreach { artist =>
+                Option.apply(new File( base, artist ).list( dirFilter )).foreach { listal => listal.foreach { album =>
+                    Option.apply(new File( base + "/" + artist, album ).list( mp3Filter )).foreach { listso => listso.foreach { song =>
+                        if (!song.startsWith(".")) {
+                            val s = Song(index, new File( base + "/" + artist + "/" + album, song )
+                                .getAbsolutePath(), song, artist, album, 0L, 0L, 0L)
+                            songsList = songsList :+ s
+                            index = index + 1
+                        }
+                    }}
                 }}
             }}
-        }}
-        songsList.foreach { song =>
-            song.createIfNotExistByPath().foreach { s =>
-                println("Persist'" + s.path + "' to database")   
+            songsList.foreach { song =>
+                song.createIfNotExistByPath().foreach { s =>
+                    println("Persist'" + s.path + "' to database")
+                }
             }
-        }
-        Song.findAll().foreach { song =>
-            if (!new File(song.path).exists) {
-                println("Deleting '" + song.path + "' from database")
-                song.delete()
+            Song.findAll().foreach { song =>
+                if (!new File(song.path).exists) {
+                    println("Deleting '" + song.path + "' from database")
+                    song.delete()
+                }
             }
+            println("done (" + (System.currentTimeMillis() - start) + " ms.)")
+            Application.updateClients( "Music library has been scanned in " + (System.currentTimeMillis() - start) + " ms.", "updatelib" )
         }
-        println("done (" + (System.currentTimeMillis() - start) + " ms.)")
-        Application.updateClients( "Music library has been scanned in " + (System.currentTimeMillis() - start) + " ms." )
     }
 }

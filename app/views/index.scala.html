@@ -57,6 +57,7 @@
         <form class="well form-search">
             Search a particular song / album / artist <input type="text" class="input-medium search-query" id="id_search" style="float: right">
         </form>
+        <div id="songs">
         <table id="library" class="table table-striped table-condensed table-bordered tablesorter">
         <thead>
             <tr>
@@ -94,6 +95,7 @@
         }
         </tbody>
         </table>
+            </div>
     }
     </div>
 
@@ -152,8 +154,14 @@
             pushSource.onmessage = function ( event ) {
                 var data = JSON.parse( event.data )
                 updateUI( data )
+                if (data.command == "updatelib") {
+                    $('#songs').load('/ #library', function() {
+                        noty({layout: 'bottomRight', theme: 'noty_theme_twitter',
+                            type :'success', text: "Library list has just been updated", timeout : 3000 })
+                    })
+                }
             }
-            $.post( '@routes.Application.update()' )
+            $.post( '@routes.CommandsController.updatePlaying()' )
         }
         function updateUI( data) {
             $('#playing').html( render('#playing_tmpl',

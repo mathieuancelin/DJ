@@ -34,4 +34,26 @@ object CommandsController extends Controller {
         Player.stop()
         Ok("stopped")
     }
+
+    def updatePlaying( ) = Action {
+        Application.updateClients( )
+        Ok
+    }
+
+    def updateLibraryList( ) = Action {
+        Application.updateClients( "", "updatelib" )
+        Ok
+    }
+
+    val form = Form( "message" -> text )
+
+    def say( ) = Action { implicit request =>
+        form.bindFromRequest().fold(
+            formWithErrors => Ok,
+            { messageValue =>
+                Application.updateClients( "[MESSAGE] " + messageValue, "" )
+            }
+        )
+        Ok
+    }
 }

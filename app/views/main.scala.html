@@ -30,7 +30,8 @@
                         <!--<li><a href="#">Playlists</a></li>  -->
                         <li><a href="#" id="uploadafile">Upload MP3s</a></li>
                         <!--<li><a href="#">Chat</a></li>     -->
-                        <li><a href="@routes.Application.updateLibrary()">Update library</a></li>
+                        <!--<li><a href="@routes.Application.updateLibrary()">Update library</a></li> -->
+                        <li><a href="#" id="updatelib">Update library</a></li>
                         <li><a href="#" id="showaboutmodal">About</a></li>
                         <li><a href="#" id="showmonitormodal">Monitor</a></li>
                         <li><a href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(@models.Song.count() songs)</a></li>
@@ -111,6 +112,10 @@
             </div>
         </div>
         <script type="text/javascript">
+            $('#updatelib').click(function(e) {
+                e.preventDefault()
+                $.get('@routes.Application.updateLibraryAsync()')
+            })
             $('#uploadafile').click(function(e) {
                 e.preventDefault()
                 $('#inputArtist').val("")

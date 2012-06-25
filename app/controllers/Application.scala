@@ -70,13 +70,8 @@ object Application extends Controller {
 
     val hub = Concurrent.hub[JsValue]( hubEnumerator )
 
-    def updateClients( notification: String = "" ): Unit = {
-        hubEnumerator.push( playingDataJson( notification ) )
-    }
-
-    def update( ) = Action {
-        updateClients( )
-        Ok
+    def updateClients( notification: String = "", command: String = "" ): Unit = {
+        hubEnumerator.push( playingDataJson( notification, command ) )
     }
 
     def playingSSE() = Action {
@@ -92,7 +87,7 @@ object Application extends Controller {
         )
     }
 
-    def playingDataJson(notification: String = "") = {
+    def playingDataJson(notification: String = "", command: String = "") = {
         Player.currentSong.map { song =>
             Json.toJson(
                 JsObject(
@@ -102,6 +97,7 @@ object Application extends Controller {
                         "artist" -> JsString( song.artist ),
                         "img" -> JsString( currentPict() ),
                         "notification" -> JsString( notification ),
+                        "command" -> JsString( command ),
                         "queue" -> queue()
                     )
                 )
@@ -115,6 +111,7 @@ object Application extends Controller {
                         "artist" -> JsString( "" ),
                         "img" -> JsString( LastFM.emptyCover ),
                         "notification" -> JsString( notification ),
+                        "command" -> JsString( command ),
                         "queue" -> queue()
                     )
                 )
@@ -132,8 +129,22 @@ object Application extends Controller {
                 Player.songsQueue.enqueue( song )
             }
         }
-        updateClients( "Music library has just been updated" )
+        //updateClients( "Music library has just been updated" )
         Redirect( routes.Application.index() )
+    }
+
+    def updateLibraryAsync() = Action {
+        var queue = Queue[Song]()
+        Player.songsQueue.foreach { queue.enqueue( _ ) }
+        Player.songsQueue.clear
+        MusicLibraryScanner.scan( Constants.musicBase )
+        queue.foreach { oldsong =>
+          Song.findByArtistAndAlbumAndName(oldsong.artist, oldsong.album, oldsong.name).foreach { song =>
+            Player.songsQueue.enqueue( song )
+          }
+        }
+        //updateClients( "Music library has just been updated" )
+        Ok
     }
 
     ///////  ------ No more Actions, util methods -------- ///////
