@@ -28,7 +28,7 @@ object LastFM {
                                     case "" => Cache.set(song.artist + song.album, emptyCover)
                                     case _ => {
                                         Cache.set(song.artist + song.album, url)
-                                        Application.updateClients( )
+                                        Application.updateClientPlaying( )
                                     }
                                 }
                             }

@@ -115,7 +115,7 @@
         <script type="text/javascript">
             $('#updatelib').click(function(e) {
                 e.preventDefault()
-                $.post('@routes.CommandsController.updateLibraryAsync()')
+                $.post('@routes.CommandsController.reindexLibraryAsync()')
             })
             $('#uploadafile').click(function(e) {
                 e.preventDefault()

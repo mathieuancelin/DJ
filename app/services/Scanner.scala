@@ -63,7 +63,7 @@ object MusicLibraryScanner {
                 }
             }
             if (i > 0) {
-                Application.updateClients( "Persisted '" + i + "' song(s) in database" )
+                Application.pushNotification( "Persisted '" + i + "' song(s) in database" )
             }
             i = 0
             Song.findAll().foreach { song =>
@@ -73,10 +73,10 @@ object MusicLibraryScanner {
                 }
             }
             if (i > 0) {
-                Application.updateClients( "Deleted '" + i + "' song(s) from database" )
+                Application.pushNotification( "Deleted '" + i + "' song(s) from database" )
             }
             println("done (" + (System.currentTimeMillis() - start) + " ms.)")
-            Application.updateClients( "Music library has been scanned in " + (System.currentTimeMillis() - start) + " ms.", "updatelib" )
+            Application.pushNotificationAndUpdateClientLib( "Music library has been scanned in " + (System.currentTimeMillis() - start) + " ms." )
         }
     }
 }

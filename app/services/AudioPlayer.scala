@@ -34,7 +34,7 @@ object Player {
         Song.findById( id ).foreach { song =>
             queuer ! song
         }
-        Application.updateClients( )
+        Application.updateClientPlaying()
     }
 
     def prequeue( id: Long ) = {        
@@ -45,7 +45,7 @@ object Player {
             Player.songsQueue.clear
             tmp.foreach { Player.songsQueue.enqueue( _ ) }
         }
-        Application.updateClients( )
+        Application.updateClientPlaying( )
     }
 
     def play() = {
@@ -61,7 +61,7 @@ object Player {
     def volumeUp() = {
         if (volume < 100) {
             volume = volume + 5
-            Application.updateClients( "Volume is " + volume )
+            Application.pushNotification( "Volume is " + volume )
         }
         var command = Array[String]( "/usr/bin/amixer", "set", "Headphone", volume + "%" )
         Runtime.getRuntime().exec( command ).waitFor()
@@ -70,7 +70,7 @@ object Player {
     def volumeDown() = {
         if (volume > 0) {
             volume = volume - 5
-            Application.updateClients( "Volume is " + volume )
+            Application.pushNotification( "Volume is " + volume )
         }
         var command = Array[String]( "/usr/bin/amixer", "set", "Headphone", volume + "%" )
         Runtime.getRuntime().exec( command ).waitFor()
@@ -82,17 +82,17 @@ class PlayQueueActor extends Actor with ActorLogging {
     def receive = {
         case s: Song => {
             Player.songsQueue.enqueue( s )
-            Application.updateClients( )
+            Application.updateClientPlaying( )
         }
         case d: Done => {
             if ( Player.songsQueue.nonEmpty ) {
                 Player.player ! Play()
             }
-            Application.updateClients( )
+            Application.updateClientPlaying( )
         }
         case s: Stop => {
             Runtime.getRuntime().exec( "killall " + Constants.playerExec + " > /dev/null 2>&1" )
-            Application.updateClients( "Stopping ..." )
+            Application.pushNotification( "Stopping ..." )
         }
     }
 }
@@ -105,14 +105,14 @@ class PlayerActor extends Actor with ActorLogging {
                 val song = Player.songsQueue.dequeue()
                 Player.currentSong = Option.apply( song.copy() )
                 val command = Array[String]( Constants.playerExec, song.path )
-                Application.updateClients( "Playing '" + song.name + "' by " + song.artist + " from " + song.album)
+                Application.pushNotification( "Playing '" + song.name + "' by " + song.artist + " from " + song.album)
                 val process = Runtime.getRuntime().exec( command )
                 val ret = process.waitFor()
                 if ( ret == 0 ) {
                     Player.queuer ! Done()
                 }
                 Player.currentSong = None
-                Application.updateClients( )
+                Application.updateClientPlaying( )
             }
         }
     }

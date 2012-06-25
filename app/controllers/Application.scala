@@ -15,6 +15,12 @@ import util.{LastFM, Constants}
 
 object Application extends Controller {
 
+    val toEventSource = Enumeratee.map[JsValue] { msg => "data: " + msg.toString() + "\n\n" }
+
+    val hubEnumerator = Enumerator.imperative[JsValue]()
+
+    val hub = Concurrent.hub[JsValue]( hubEnumerator )
+
     def index() = Action {
         val songs = Song.findAll().sortWith { (song1, song2) =>
             if (song1.artist.toLowerCase.equals(song2.artist.toLowerCase) && song1.album.toLowerCase.equals(song2.album.toLowerCase)) {
@@ -30,23 +36,25 @@ object Application extends Controller {
         Ok( views.html.index( songs ) )
     }
 
-    val toEventSource = Enumeratee.map[JsValue] { msg => "data: " + msg.toString() + "\n\n" }
-
-    val hubEnumerator = Enumerator.imperative[JsValue]()
-
-    val hub = Concurrent.hub[JsValue]( hubEnumerator )
-
-    def pushNotification(notification: String) = {
+    def pushNotification(notification: String): Unit = {
         hubEnumerator.push( playingDataJson( notification, "" ) )
     }
 
-    def updateClientLibrary() = {
+    def updateClientLibrary(): Unit = {
         hubEnumerator.push( playingDataJson( "", "updatelib" ) )
     }
 
-    def updateClients( notification: String = "", command: String = "" ): Unit = {
-        hubEnumerator.push( playingDataJson( notification, command ) )
+    def updateClientPlaying(): Unit = {
+        hubEnumerator.push( playingDataJson( ) )
     }
+
+    def pushNotificationAndUpdateClientLib(notification: String): Unit = {
+        hubEnumerator.push( playingDataJson( notification, "updatelib" ) )
+    }
+
+    /**def updateClients( notification: String = "", command: String = "" ): Unit = {
+        hubEnumerator.push( playingDataJson( notification, command ) )
+    }  **/
 
     def playingSSE() = Action {
         SimpleResult(
@@ -93,8 +101,8 @@ object Application extends Controller {
         )
     }
 
-    def updateLibrary() = Action {
-        CommandsController.updateLibrary()
+    def reindexLibrary() = Action {
+        CommandsController.reindexLibrary()
         Redirect( routes.Application.index() )
     }
 

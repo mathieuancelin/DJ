@@ -18,7 +18,7 @@ object CommandsController extends Controller {
 
     def clearQueue() = Action { request =>
         Player.songsQueue.clear
-        Application.updateClients( "The queue has been cleared by " + request.headers.get(play.api.http.HeaderNames.FROM).getOrElse("Unknown") )
+        Application.pushNotification( "The queue has been cleared by " + request.headers.get(play.api.http.HeaderNames.FROM).getOrElse("Unknown") )
         Ok
     }
 
@@ -39,12 +39,12 @@ object CommandsController extends Controller {
     }
 
     def updatePlaying( ) = Action {
-        Application.updateClients( )
+        Application.updateClientPlaying()
         Ok
     }
 
     def updateLibraryList( ) = Action {
-        Application.updateClients( "", "updatelib" )
+        Application.updateClientLibrary()
         Ok
     }
 
@@ -54,7 +54,7 @@ object CommandsController extends Controller {
         form.bindFromRequest().fold(
             formWithErrors => Ok,
             { messageValue =>
-                Application.updateClients( "[MESSAGE] " + messageValue, "" )
+                Application.pushNotification( "[MESSAGE] " + messageValue )
             }
         )
         Ok
@@ -76,7 +76,7 @@ object CommandsController extends Controller {
             { maybeIdValue =>
                 val id = Option.apply( maybeIdValue ).map( toL( _ ) ).getOrElse( toL( -1 ) )
                 Player.enqueue( id )
-                Application.updateClients( "'" + Song.findById( id ).map( _.name ).getOrElse("Undefined")
+                Application.pushNotification( "'" + Song.findById( id ).map( _.name ).getOrElse("Undefined")
                     + "' has been added to the queue by "
                     + request.headers.get(play.api.http.HeaderNames.FROM).getOrElse("Unknown") )
                 Ok
@@ -90,7 +90,7 @@ object CommandsController extends Controller {
             { maybeIdValue =>
                 val id = Option.apply( maybeIdValue ).map( toL( _ ) ).getOrElse( toL( -1 ) )
                 Player.prequeue( id )
-                Application.updateClients( "'" + Song.findById( id ).map( _.name ).getOrElse("Undefined")
+                Application.pushNotification( "'" + Song.findById( id ).map( _.name ).getOrElse("Undefined")
                     + "' has been added on top of the queue by "
                     + request.headers.get(play.api.http.HeaderNames.FROM).getOrElse("Unknown") )
                 Ok
@@ -106,7 +106,7 @@ object CommandsController extends Controller {
                 val newQueue = Player.songsQueue.filter( _.id != id )
                 Player.songsQueue.clear
                 newQueue.foreach { Player.songsQueue.enqueue( _ ) }
-                Application.updateClients( "'" + Song.findById( id ).map( _.name ).getOrElse("Undefined")
+                Application.pushNotification( "'" + Song.findById( id ).map( _.name ).getOrElse("Undefined")
                     + "' has been removed from the queue by "
                     + request.headers.get(play.api.http.HeaderNames.FROM).getOrElse("Unknown") )
                 Ok
@@ -114,12 +114,12 @@ object CommandsController extends Controller {
         )
     }
 
-    def updateLibraryAsync() = Action {
-        updateLibrary()
+    def reindexLibraryAsync() = Action {
+        reindexLibrary()
         Ok
     }
 
-    def updateLibrary() = {
+    def reindexLibrary() = {
         var queue = Queue[Song]()
         Player.songsQueue.foreach { queue.enqueue( _ ) }
         Player.songsQueue.clear

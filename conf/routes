@@ -4,7 +4,7 @@
 
 #Basic Pages
 GET     /                               controllers.Application.index
-GET     /redindex                       controllers.Application.updateLibrary
+GET     /redindex                       controllers.Application.reindexLibrary
 GET     /monitor                        controllers.MonitorController.monitor()
 
 #Commands
@@ -20,7 +20,7 @@ POST    /commands/updtplaying           controllers.CommandsController.updatePla
 POST    /commands/say                   controllers.CommandsController.say()
 POST    /commands/volumeup              controllers.CommandsController.volumeUp()
 POST    /commands/volumedown            controllers.CommandsController.volumeDown()
-POST    /commands/redindex              controllers.CommandsController.updateLibraryAsync
+POST    /commands/redindex              controllers.CommandsController.reindexLibraryAsync
 
 #Files manipulation
 GET     /files/currentsong              controllers.FilesController.currentSong()

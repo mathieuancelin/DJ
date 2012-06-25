@@ -78,10 +78,10 @@ object FilesController extends Controller {
                                 s.createIfNotExistByPath().foreach { s =>
                                     println("Persist'" + s.path + "' to database")
                                 }
-                                Application.updateClients( "New MP3 '" + song.getName + "' has been uploaded to the library" )
+                                Application.pushNotification( "New MP3 '" + song.getName + "' has been uploaded to the library" )
                             }
                         }
-                        Application.updateClients( "", "updatelib" )
+                        Application.updateClientLibrary()
                     }
                 }
                 Redirect( routes.Application.index() )
