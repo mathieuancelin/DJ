@@ -29,7 +29,6 @@
         <br/>    <br/>
         <a href="@routes.FilesController.currentSong()" id="download" class="btn btn-inverse" title="Download current song"><i class="icon-download icon-white"></i></a>
         <a href="@routes.FilesController.currentQueue()" id="downloadall" class="btn btn-inverse"  title="Download current queue"><i class="icon-list-alt icon-white"></i></a>
-
         <a href="#" id="volumedown" class="btn btn-inverse"><i class="icon-volume-down icon-white"></i></a>
         <a href="#" id="volumeup" class="btn btn-inverse"><i class="icon-volume-up icon-white"></i></a>
         <!-- <a href="#" id="saveplaylist" class="btn btn-inverse"><i class="icon-hdd icon-white"></i></a>   -->
@@ -111,20 +110,20 @@
         $('a.play-queue').live('click', function(e) {
             e.preventDefault()
             var href = $(this).attr('href')
-            $.post('@routes.Application.enqueue()', {id: href})
+            $.post('@routes.CommandsController.enqueue()', {id: href})
         })
         $('a.copy-queue').live('click', function(e) {
             e.preventDefault()
             var href = $(this).attr('href')
             $.post('@routes.CommandsController.stopSong()')
-            $.post('@routes.Application.prequeue()', {id: href}, function(data) {
+            $.post('@routes.CommandsController.prequeue()', {id: href}, function(data) {
                 $.post('@routes.CommandsController.playSong()')
             })
         })
         $('a.delete-queue').live('click', function(e) {
             e.preventDefault()
             var href = $(this).attr('href')
-            $.post('@routes.Application.deletequeue()', {id: href})
+            $.post('@routes.CommandsController.deletequeue()', {id: href})
         })
         $('#play').click(function(e) {
             e.preventDefault()

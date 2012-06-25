@@ -20,8 +20,6 @@ case class Stop()
 
 object Player {
 
-    //var songsList = IndexedSeq[Song]()
-
     var currentSong:Option[Song] = None
 
     var songsQueue = Queue[Song]()
@@ -62,7 +60,7 @@ object Player {
 
     def volumeUp() = {
         if (volume < 100) {
-            volume = volume + 10
+            volume = volume + 5
             Application.updateClients( "Volume is " + volume )
         }
         var command = Array[String]( "/usr/bin/amixer", "set", "Headphone", volume + "%" )
@@ -71,7 +69,7 @@ object Player {
 
     def volumeDown() = {
         if (volume > 0) {
-            volume = volume - 10
+            volume = volume - 5
             Application.updateClients( "Volume is " + volume )
         }
         var command = Array[String]( "/usr/bin/amixer", "set", "Headphone", volume + "%" )
@@ -108,7 +106,7 @@ class PlayerActor extends Actor with ActorLogging {
                 Player.currentSong = Option.apply( song.copy() )
                 val command = Array[String]( Constants.playerExec, song.path )
                 Application.updateClients( "Playing '" + song.name + "' by " + song.artist + " from " + song.album)
-                var process = Runtime.getRuntime().exec( command )
+                val process = Runtime.getRuntime().exec( command )
                 val ret = process.waitFor()
                 if ( ret == 0 ) {
                     Player.queuer ! Done()

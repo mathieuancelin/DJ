@@ -40,22 +40,4 @@ public class ZipUtils {
             }
         }
     }
-
-    /**def zip( out: String, files: Iterable[String] ) = {
-     import java.io.{ BufferedInputStream, FileInputStream, FileOutputStream }
-     import java.util.zip.{ ZipEntry, ZipOutputStream }
-     val zip = new ZipOutputStream(new FileOutputStream(out))
-     files.foreach { name =>
-     zip.putNextEntry(new ZipEntry(name))
-     val in = new BufferedInputStream(new FileInputStream(name))
-     var b = in.read()
-     while (b > -1) {
-     zip.write(b)
-     b = in.read()
-     }
-     in.close()
-     zip.closeEntry()
-     }
-     zip.close()
-     }  **/
 }

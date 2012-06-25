@@ -27,13 +27,8 @@ object MonitorController extends Controller {
 
     def monitorSource() = Action {
         SimpleResult(
-            header = ResponseHeader(
-                OK,
-                Map(
-                    CONTENT_LENGTH -> "-1",
-                    CONTENT_TYPE -> "text/event-stream"
-                )
-            ), Reporting.monitoringEnumerator.through( Reporting.toEventSource )
+            header = ResponseHeader( OK, Map( CONTENT_LENGTH -> "-1", CONTENT_TYPE -> "text/event-stream") ),
+            Reporting.monitoringEnumerator.through( Reporting.toEventSource )
         )
     }
 }

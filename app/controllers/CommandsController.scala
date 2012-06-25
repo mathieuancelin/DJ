@@ -1,7 +1,7 @@
 package controllers
 
 import play.api._
-import play.api.mvc._
+import mvc._
 import play.api.data.Forms._
 import play.api.data._
 import models._
@@ -10,29 +10,32 @@ import play.api.Play.current
 import services._
 import play.api.libs.json._
 import scala.collection.mutable._
+import util.Constants
 
 object CommandsController extends Controller {
+
+    val idForm = Form( "id" -> text )
 
     def clearQueue() = Action { request =>
         Player.songsQueue.clear
         Application.updateClients( "The queue has been cleared by " + request.headers.get(play.api.http.HeaderNames.FROM).getOrElse("Unknown") )
-        Ok( "cleared" )
+        Ok
     }
 
     def playSong() = Action {
         Player.play()
-        Ok("playing")
+        Ok
     }
 
     def nextSong() = Action {
         Player.stop()
         Player.play()
-        Ok("playing")
+        Ok
     }
 
     def stopSong() = Action {
         Player.stop()
-        Ok("stopped")
+        Ok
     }
 
     def updatePlaying( ) = Action {
@@ -65,5 +68,74 @@ object CommandsController extends Controller {
     def volumeDown() = Action { implicit request =>
         Player.volumeDown()
         Ok
+    }
+
+    def enqueue() = Action { implicit request =>
+        idForm.bindFromRequest.fold (
+            formWithErrors => BadRequest( "You need to post a 'id' value!" ),
+            { maybeIdValue =>
+                val id = Option.apply( maybeIdValue ).map( toL( _ ) ).getOrElse( toL( -1 ) )
+                Player.enqueue( id )
+                Application.updateClients( "'" + Song.findById( id ).map( _.name ).getOrElse("Undefined")
+                    + "' has been added to the queue by "
+                    + request.headers.get(play.api.http.HeaderNames.FROM).getOrElse("Unknown") )
+                Ok
+            }
+        )
+    }
+
+    def prequeue() = Action { implicit request =>
+        idForm.bindFromRequest.fold (
+            formWithErrors => BadRequest( "You need to post a 'id' value!" ),
+            { maybeIdValue =>
+                val id = Option.apply( maybeIdValue ).map( toL( _ ) ).getOrElse( toL( -1 ) )
+                Player.prequeue( id )
+                Application.updateClients( "'" + Song.findById( id ).map( _.name ).getOrElse("Undefined")
+                    + "' has been added on top of the queue by "
+                    + request.headers.get(play.api.http.HeaderNames.FROM).getOrElse("Unknown") )
+                Ok
+            }
+        )
+    }
+
+    def deletequeue() = Action { implicit request =>
+        idForm.bindFromRequest.fold (
+            formWithErrors => BadRequest( "You need to post a 'id' value!" ),
+            { maybeIdValue =>
+                val id = Option.apply( maybeIdValue ).map( toL( _ ) ).getOrElse( toL( -1 ) )
+                val newQueue = Player.songsQueue.filter( _.id != id )
+                Player.songsQueue.clear
+                newQueue.foreach { Player.songsQueue.enqueue( _ ) }
+                Application.updateClients( "'" + Song.findById( id ).map( _.name ).getOrElse("Undefined")
+                    + "' has been removed from the queue by "
+                    + request.headers.get(play.api.http.HeaderNames.FROM).getOrElse("Unknown") )
+                Ok
+            }
+        )
+    }
+
+    def updateLibraryAsync() = Action {
+        updateLibrary()
+        Ok
+    }
+
+    def updateLibrary() = {
+        var queue = Queue[Song]()
+        Player.songsQueue.foreach { queue.enqueue( _ ) }
+        Player.songsQueue.clear
+        MusicLibraryScanner.scan( Constants.musicBase )
+        queue.foreach { oldsong =>
+            Song.findByArtistAndAlbumAndName(oldsong.artist, oldsong.album, oldsong.name).foreach { song =>
+                Player.songsQueue.enqueue( song )
+            }
+        }
+    }
+
+    def toL( value: String ) = {
+        java.lang.Long.valueOf( value )
+    }
+
+    def toL( value: Int ) = {
+        java.lang.Long.valueOf( value )
     }
 }

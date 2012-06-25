@@ -78,34 +78,16 @@ object FilesController extends Controller {
                                 s.createIfNotExistByPath().foreach { s =>
                                     println("Persist'" + s.path + "' to database")
                                 }
-                                Application.updateClients( "New MP3 '" + song.getName + "' has been uploaded to the library", "updatelib" )
+                                Application.updateClients( "New MP3 '" + song.getName + "' has been uploaded to the library" )
                             }
                         }
+                        Application.updateClients( "", "updatelib" )
                     }
-                    //MusicLibraryScanner.scan( Constants.musicBase )
                 }
                 Redirect( routes.Application.index() )
             }
         )
     }
-
-    /**def upload() = Action(parse.multipartFormData) { implicit request =>
-        uploadForm.bindFromRequest.fold (
-            formWithErrors => BadRequest( "You need to post an 'artist' and 'album' value!" ),
-            { value =>
-                val artist = value._1
-                val album = value._2
-                println("upload files " + request.body.file("files").size + " for " + artist + " " + album)
-                request.body.file("files").foreach { file =>
-                    import java.io.File
-                    val filename = file.filename
-                    val contentType = file.contentType
-                    file.ref.moveTo(new File("/tmp/" + artist + "/" + album + "/" + filename))
-                }
-                Redirect( routes.Application.index() )
-            }
-        )
-    }**/
 
     def file(id: Long) = Action { implicit request =>
         createTmpRootIfNotExists()
