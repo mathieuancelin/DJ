@@ -18,7 +18,17 @@ object Application extends Controller {
     val idForm = Form( "id" -> text )
 
     def index() = Action {
-        val songs = Song.findAll()
+        val songs = Song.findAll().sortWith { (song1, song2) =>
+            if (song1.artist.toLowerCase.equals(song2.artist.toLowerCase) && song1.album.toLowerCase.equals(song2.album.toLowerCase)) {
+                song1.name.toLowerCase.compareTo(song2.name.toLowerCase) < 0
+            } else {
+                if (song1.artist.toLowerCase.equals(song2.artist.toLowerCase)) {
+                    song1.album.toLowerCase.compareTo(song2.album.toLowerCase) < 0
+                } else {
+                    song1.artist.toLowerCase.compareTo(song2.artist.toLowerCase) < 0
+                }
+            }
+        }
         Ok( views.html.index( songs ) )
     }
 
