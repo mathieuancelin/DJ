@@ -36,6 +36,14 @@ object Application extends Controller {
 
     val hub = Concurrent.hub[JsValue]( hubEnumerator )
 
+    def pushNotification(notification: String) = {
+        hubEnumerator.push( playingDataJson( notification, "" ) )
+    }
+
+    def updateClientLibrary() = {
+        hubEnumerator.push( playingDataJson( "", "updatelib" ) )
+    }
+
     def updateClients( notification: String = "", command: String = "" ): Unit = {
         hubEnumerator.push( playingDataJson( notification, command ) )
     }
