@@ -74,11 +74,15 @@ object FilesController extends Controller {
                             val song = new File(albumDir, filename)
                             if (!song.exists()) {
                                 file.ref.moveTo(song)
-                                Application.updateClients( "New MP3 '" + song.getName + "' has been uploaded to the library" )
+                                val s = Song(0L, song.getAbsolutePath(), filename, artist, album, 0L, 0L, 0L)
+                                s.createIfNotExistByPath().foreach { s =>
+                                    println("Persist'" + s.path + "' to database")
+                                }
+                                Application.updateClients( "New MP3 '" + song.getName + "' has been uploaded to the library", "updatelib" )
                             }
                         }
                     }
-                    MusicLibraryScanner.scan( Constants.musicBase )
+                    //MusicLibraryScanner.scan( Constants.musicBase )
                 }
                 Redirect( routes.Application.index() )
             }

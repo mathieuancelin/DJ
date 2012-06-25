@@ -32,7 +32,7 @@ object MusicLibraryScanner {
     }
 
     def autoScann( base: String) = {
-        Akka.system.scheduler.schedule( 0 millisecond, 120 seconds ) {
+        Akka.system.scheduler.schedule( 0 millisecond, 500 seconds ) {
             scan( base )
         }
     }
@@ -55,17 +55,22 @@ object MusicLibraryScanner {
                     }}
                 }}
             }}
+            var i = 0
             songsList.foreach { song =>
                 song.createIfNotExistByPath().foreach { s =>
                     println("Persist'" + s.path + "' to database")
+                    i = i + 1
                 }
             }
+            Application.updateClients( "Persisted '" + i + "' song(s) in database" )
+            i = 0
             Song.findAll().foreach { song =>
                 if (!new File(song.path).exists) {
-                    println("Deleting '" + song.path + "' from database")
                     song.delete()
+                    i = i + 1
                 }
             }
+            Application.updateClients( "Deleted '" + i + "' song(s) from database" )
             println("done (" + (System.currentTimeMillis() - start) + " ms.)")
             Application.updateClients( "Music library has been scanned in " + (System.currentTimeMillis() - start) + " ms.", "updatelib" )
         }
