@@ -2,10 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3712ca1d-0a1d-4e48-b978-bc159afc0c9b" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/controllers/CommandsController.scala" afterPath="$PROJECT_DIR$/app/controllers/CommandsController.scala" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/assets/javascripts/monitor.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DJ.iws" afterPath="$PROJECT_DIR$/DJ.iws" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/assets/stylesheets/monitor.less" afterPath="$PROJECT_DIR$/app/assets/stylesheets/monitor.less" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/services/AudioPlayer.scala" afterPath="$PROJECT_DIR$/app/services/AudioPlayer.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/index.scala.html" afterPath="$PROJECT_DIR$/app/views/index.scala.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/conf/routes" afterPath="$PROJECT_DIR$/conf/routes" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/main.scala.html" afterPath="$PROJECT_DIR$/app/views/main.scala.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/monitor.scala.html" afterPath="$PROJECT_DIR$/app/views/monitor.scala.html" />
     </list>
     <ignored path="DJ.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -63,10 +65,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="index.scala.html" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="index.scala.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/views/index.scala.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="33" column="32" selection-start="1539" selection-end="1539" vertical-scroll-proportion="0.17077799">
+            <state line="33" column="32" selection-start="1539" selection-end="1539" vertical-scroll-proportion="-3.75">
               <folding />
             </state>
           </provider>
@@ -84,7 +86,16 @@
       <file leaf-file-name="AudioPlayer.scala" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/services/AudioPlayer.scala">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="67" column="0" selection-start="1483" selection-end="1483" vertical-scroll-proportion="0.0">
+            <state line="66" column="0" selection-start="1477" selection-end="1477" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="main.scala.html" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/views/main.scala.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="35" column="0" selection-start="2396" selection-end="2396" vertical-scroll-proportion="0.74850297">
               <folding />
             </state>
           </provider>
@@ -103,22 +114,22 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/public/toto.html" />
         <option value="$PROJECT_DIR$/app/assets/stylesheets/main.less" />
         <option value="$PROJECT_DIR$/app/assets/javascripts/monitoring.js" />
         <option value="$PROJECT_DIR$/app/controllers/MonitorController.scala" />
-        <option value="$PROJECT_DIR$/app/views/monitor.scala.html" />
-        <option value="$PROJECT_DIR$/app/assets/stylesheets/monitor.less" />
         <option value="$PROJECT_DIR$/app/monitoring/Reporting.scala" />
         <option value="$PROJECT_DIR$/CLI/dj" />
-        <option value="$PROJECT_DIR$/app/views/main.scala.html" />
         <option value="$PROJECT_DIR$/app/controllers/Application.scala" />
         <option value="$PROJECT_DIR$/app/controllers/FilesController.scala" />
         <option value="$PROJECT_DIR$/app/services/Scanner.scala" />
         <option value="$PROJECT_DIR$/app/controllers/CommandsController.scala" />
         <option value="$PROJECT_DIR$/conf/routes" />
-        <option value="$PROJECT_DIR$/app/services/AudioPlayer.scala" />
         <option value="$PROJECT_DIR$/app/views/index.scala.html" />
+        <option value="$PROJECT_DIR$/app/services/AudioPlayer.scala" />
+        <option value="$PROJECT_DIR$/app/assets/stylesheets/monitor.less" />
+        <option value="$PROJECT_DIR$/app/views/monitor.scala.html" />
+        <option value="$PROJECT_DIR$/app/assets/javascripts/monitor.js" />
+        <option value="$PROJECT_DIR$/app/views/main.scala.html" />
       </list>
     </option>
   </component>
@@ -537,6 +548,50 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="DJ" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="DJ" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="stylesheets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="DJ" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="DJ" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="javascripts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="PackagesPane">
@@ -903,19 +958,9 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/models/MainQueue.scala">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="7" selection-start="303" selection-end="303" vertical-scroll-proportion="0.0" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/controllers/MonitorController.scala">
       <provider selected="true" editor-type-id="text-editor">
         <state line="27" column="21" selection-start="583" selection-end="596" vertical-scroll-proportion="0.54787236" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/monitor.less">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="23" selection-start="30" selection-end="30" vertical-scroll-proportion="0.0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/monitoring/Reporting.scala">
@@ -926,18 +971,6 @@
     <entry file="file://$PROJECT_DIR$/app/monitoring/CPU.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="22" column="57" selection-start="695" selection-end="695" vertical-scroll-proportion="0.55851066" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/monitor.scala.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="153" column="26" selection-start="6220" selection-end="6220" vertical-scroll-proportion="-90.375" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/main.scala.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="7" column="88" selection-start="186" selection-end="186" vertical-scroll-proportion="-4.375">
-          <folding />
-        </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/CLI/dj">
@@ -977,9 +1010,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/conf/routes">
+    <entry file="file://$PROJECT_DIR$/app/views/index.scala.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="49" selection-start="1275" selection-end="1275" vertical-scroll-proportion="0.41489363">
+        <state line="33" column="32" selection-start="1539" selection-end="1539" vertical-scroll-proportion="-3.75">
           <folding />
         </state>
       </provider>
@@ -993,14 +1026,42 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/services/AudioPlayer.scala">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="67" column="0" selection-start="1483" selection-end="1483" vertical-scroll-proportion="0.0">
+        <state line="66" column="0" selection-start="1477" selection-end="1477" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/views/index.scala.html">
+    <entry file="file://$PROJECT_DIR$/conf/routes">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="33" column="32" selection-start="1539" selection-end="1539" vertical-scroll-proportion="0.17077799">
+        <state line="32" column="19" selection-start="1844" selection-end="1855" vertical-scroll-proportion="0.68085104">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/stylesheets/monitor.less">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="9" selection-start="9" selection-end="9" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/assets/javascripts/monitor.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="109" column="5" selection-start="2587" selection-end="2587" vertical-scroll-proportion="2.8989363">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/monitor.scala.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="27" selection-start="928" selection-end="928" vertical-scroll-proportion="0.5833333">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/views/main.scala.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="35" column="0" selection-start="2396" selection-end="2396" vertical-scroll-proportion="0.74850297">
           <folding />
         </state>
       </provider>

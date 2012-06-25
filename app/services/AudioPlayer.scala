@@ -63,8 +63,8 @@ object Player {
     def volumeUp() = {
         if (volume < 100) {
             volume = volume + 10
+            Application.updateClients( "Volume is " + volume )
         }
-        Application.updateClients( "Volume is " + volume )
         var command = Array[String]( "/usr/bin/amixer", "set", "Headphone", volume + "%" )
         Runtime.getRuntime().exec( command ).waitFor()
     }
@@ -72,8 +72,8 @@ object Player {
     def volumeDown() = {
         if (volume > 0) {
             volume = volume - 10
+            Application.updateClients( "Volume is " + volume )
         }
-        Application.updateClients( "Volume is " + volume )
         var command = Array[String]( "/usr/bin/amixer", "set", "Headphone", volume + "%" )
         Runtime.getRuntime().exec( command ).waitFor()
     }
