@@ -73,12 +73,14 @@ object FilesController extends Controller {
                             }
                             val song = new File(albumDir, filename)
                             if (!song.exists()) {
-                                file.ref.moveTo(song)
-                                val s = Song(0L, song.getAbsolutePath(), filename, artist, album, 0L, 0L, 0L)
-                                s.createIfNotExistByPath().foreach { s =>
-                                    println("Persist'" + s.path + "' to database")
+                                if (filename.toLowerCase.endsWith("mp3")) {
+                                    file.ref.moveTo(song)
+                                    val s = Song(0L, song.getAbsolutePath(), filename, artist, album, 0L, 0L, 0L)
+                                    s.createIfNotExistByPath().foreach { s =>
+                                        println("Persist'" + s.path + "' to database")
+                                    }
+                                    Application.pushNotification( "New MP3 '" + song.getName + "' has been uploaded to the library" )
                                 }
-                                Application.pushNotification( "New MP3 '" + song.getName + "' has been uploaded to the library" )
                             }
                         }
                         Application.updateClientLibrary()

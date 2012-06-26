@@ -102,7 +102,7 @@
     </div>
 
     <script type="text/javascript">
-
+        var qs
         function render(templateId, view) {
             return Mustache.render( $(templateId).html(), view )
         }
@@ -168,6 +168,7 @@
                     $('#songs').load('/ #library', function() {
                         noty({layout: 'bottomRight', theme: 'noty_theme_twitter',
                             type :'success', text: "Library list has just been updated", timeout : 3000 })
+                        qs.cache()
                     })
                 }
             }
@@ -203,7 +204,7 @@
             }
         }
         $(document).ready(function () {
-            $("#id_search").quicksearch("#library tbody tr", {
+            qs = $("#id_search").quicksearch("#library tbody tr", {
                 noResults: '#noresults',
                 stripeRows: ['odd', 'even']
             });
