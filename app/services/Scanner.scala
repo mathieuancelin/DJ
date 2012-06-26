@@ -71,6 +71,10 @@ object MusicLibraryScanner {
                     song.delete()
                     i = i + 1
                 }
+                if (!song.name.toLowerCase.endsWith("mp3")) {
+                    song.delete()
+                    i = i + 1
+                }
             }
             if (i > 0) {
                 Application.pushNotification( "Deleted '" + i + "' song(s) from database" )
