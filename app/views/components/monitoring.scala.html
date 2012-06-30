@@ -1,0 +1,31 @@
+@()
+
+<div id="monitormodal" class="modal hide">
+    <div class="modal-header">
+        <button type="button" class="close" id="closemonitormodal" data-dismiss="modal">×</button>
+        <h3>DJ Monitoring</h3>
+    </div>
+    <div class="modal-body">
+        <div style="width: 530px; height: 400px;" id="monitors">
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn btn-primary" id="closemonitormodal2" data-dismiss="modal">Close</a>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $('#showmonitormodal').click(function(e) {
+        e.preventDefault()
+        initMonitors( window.document.getElementById("monitors") )
+        runMonitors()
+        $('#monitormodal').modal()
+    })
+    $('#closemonitormodal').click(function(e) {
+        $('#monitors').empty()
+        stopMonitors()
+    })
+    $('#closemonitormodal2').click(function(e) {
+        $('#iframemonitormodal').attr("src", "")
+    })
+</script>

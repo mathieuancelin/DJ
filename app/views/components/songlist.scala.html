@@ -1,0 +1,70 @@
+@(songs: List[Song])
+
+<div class="span8">
+    @if(songs.isEmpty) {
+    <div class="alert">
+        Ooops, library is empty
+    </div>
+    } else {
+    <form class="well form-search">
+        Search a particular song / album / artist <input type="text" class="input-medium search-query" id="id_search" style="float: right">
+    </form>
+    <div id="songs">
+        <table id="library" class="table table-striped table-condensed table-bordered tablesorter">
+            <thead>
+            <tr>
+                <th></th>
+                <th>
+                    <b>Name</b>
+                </th>
+                <th>
+                    <b>Album</b>
+                </th>
+                <th>
+                    <b>Artist</b>
+                </th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr id="noresults" style="display: none; ">
+                <td>No Results</td>
+            </tr>
+            @for(song <- songs) {
+            <tr>
+                <td style="width: 50px">
+                    <a href="@song.id" class="play-queue btn btn-inverse" title="Add to play queue"><i class="icon-plus-sign icon-white "></i></a>
+                </td>
+                <td style="width: 400px">
+                    <p></p><a href="@routes.FilesController.file(song.id)">@song.name</a></p>
+                </td>
+                <td style="width: 150px">
+                    <p><a href="@routes.FilesController.album(song.artist, song.album)">@song.album</a></p>
+                </td>
+                <td style="width: 150px">
+                    <p><a href="@routes.FilesController.artist(song.artist)">@song.artist</a></p>
+                </td>
+            </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+    }
+    <script type="text/javascript">
+        var qs
+        $('a.play-queue').live('click', function(e) {
+            e.preventDefault()
+            var href = $(this).attr('href')
+            $.post('@routes.CommandsController.enqueue()', {id: href})
+        })
+        $(document).ready(function () {
+            qs = $("#id_search").quicksearch("#library tbody tr", {
+                noResults: '#noresults',
+                stripeRows: ['odd', 'even']
+            });
+            $("#library").tablesorter( )
+        })
+        function cacheQuickSearchAfterUpdate() {
+            qs.cache()
+        }
+    </script>
+</div>

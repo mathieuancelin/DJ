@@ -1,0 +1,122 @@
+@()
+
+<div class="span4">
+    <h2>Now playing</h2><br/>
+    <script type="text/html" id="playing_tmpl">
+        <strong>{{name}}</strong><br/>
+        from: {{album}}<br/>
+        by: {{artist}}
+    </script>
+    <address id="playing">
+        <strong>Nothing</strong><br/>
+        from: <br/>
+        by:
+    </address>
+    <script type="text/html" id="pict_tmpl">
+        <img src="{{img}}">
+    </script>
+    <div id="pict">
+        <img src="@util.LastFM.emptyCover">
+    </div>
+    <br/>
+    <a href="#" id="play" class="btn btn-success"><i class="icon-play icon-white"></i></a>
+    <a href="#" id="next" class="btn btn-success"><i class="icon-fast-forward icon-white"></i></a>
+    <a href="#" id="stop" class="btn btn-danger"><i class="icon-stop icon-white"></i></a>
+    <a href="#" id="clear" class="btn btn-primary"><i class="icon-remove icon-white"></i></a>
+    <br/>    <br/>
+    <a href="@routes.FilesController.currentSong()" id="download" class="btn btn-inverse" title="Download current song"><i class="icon-download icon-white"></i></a>
+    <a href="@routes.FilesController.currentQueue()" id="downloadall" class="btn btn-inverse"  title="Download current queue"><i class="icon-list-alt icon-white"></i></a>
+    <a href="#" id="volumedown" class="btn btn-inverse"><i class="icon-volume-down icon-white"></i></a>
+    <a href="#" id="volumeup" class="btn btn-inverse"><i class="icon-volume-up icon-white"></i></a>
+    <!-- <a href="#" id="saveplaylist" class="btn btn-inverse"><i class="icon-hdd icon-white"></i></a>   -->
+    <br/><br/>
+    <h2>Song Queue</h2><br/>
+    <script type="text/html" id="queue_tmpl">
+        <tr>
+            <td>{{name}}</td>
+            <td style="width: 70px">
+                <a href="{{id}}" class="copy-queue btn btn-mini btn-success">
+                    <i class="icon-play icon-white"></i>
+                </a>
+                &nbsp;
+                <a href="{{id}}" class="delete-queue btn btn-mini btn-danger">
+                    <i class="icon-remove icon-white"></i>
+                </a>
+            </td>
+        </tr>
+    </script>
+    <table id="queue" class="table table-striped table-condensed table-bordered"></table>
+</div>
+
+<script type="text/javascript">
+
+    function render(templateId, view) {
+        return Mustache.render( $(templateId).html(), view )
+    }
+    $('a.copy-queue').live('click', function(e) {
+        e.preventDefault()
+        var href = $(this).attr('href')
+        $.post('@routes.CommandsController.stopSong()')
+        $.post('@routes.CommandsController.prequeue()', {id: href}, function(data) {
+            $.post('@routes.CommandsController.playSong()')
+        })
+    })
+    $('a.delete-queue').live('click', function(e) {
+        e.preventDefault()
+        var href = $(this).attr('href')
+        $.post('@routes.CommandsController.deletequeue()', {id: href})
+    })
+    $('#play').click(function(e) {
+        e.preventDefault()
+        $.post('@routes.CommandsController.playSong()')
+    });
+    $('#next').click(function(e) {
+        e.preventDefault()
+        $.post('@routes.CommandsController.nextSong()')
+    });
+    $('#stop').click(function(e) {
+        e.preventDefault()
+        $.post('@routes.CommandsController.stopSong()')
+    });
+    $('#clear').click(function(e) {
+        e.preventDefault()
+        $.post('@routes.CommandsController.clearQueue()')
+    });
+    $('#volumeup').click(function(e) {
+        e.preventDefault()
+        $.post('@routes.CommandsController.volumeUp()' )
+    })
+    $('#volumedown').click(function(e) {
+        e.preventDefault()
+        $.post('@routes.CommandsController.volumeDown()' )
+    })
+    function updateUI( data) {
+        $('#playing').html( render('#playing_tmpl',
+                {
+                    name: data["name"],
+                    album: data["album"],
+                    artist: data["artist"]
+                }
+        ))
+        var pict = render('#pict_tmpl', { img: data["img"] } )
+        if ($('#pict').html() != pict) {
+            $('#pict').html( pict )
+        }
+        $('#queue').html("")
+        var songs = data["queue"]
+        for (i in songs) {
+            $('#queue').append( render('#queue_tmpl',
+                    {
+                        id: songs[i]["id"],
+                        name: songs[i]["name"]
+                    }
+            ))
+        }
+        if (data.notification != undefined) {
+            if (data.notification != "") {
+                noty({layout: 'bottomRight', theme: 'noty_theme_twitter',
+                    type :'success', text: data.notification, timeout : 3000 })
+            }
+        }
+    }
+</script>

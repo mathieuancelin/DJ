@@ -21,10 +21,6 @@ import play.api.libs.json._
 
 object MonitorController extends Controller {
 
-    def monitor() = Action {
-        Ok( views.html.monitor() )
-    }
-
     def monitorSource() = Action {
         SimpleResult(
             header = ResponseHeader( OK, Map( CONTENT_LENGTH -> "-1", CONTENT_TYPE -> "text/event-stream") ),

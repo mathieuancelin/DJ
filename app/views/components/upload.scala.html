@@ -1,0 +1,91 @@
+@()
+
+<div id="songupload" class="modal hide">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">×</button>
+        <h3>Upload MP3s</h3>
+    </div>
+    <form action="@{routes.FilesController.upload()}" method="post" class="form-horizontal" enctype="multipart/form-data">
+        <div class="modal-body">
+            <fieldset>
+                <div id="artistGroup" class="control-group">
+                    <label class="control-label" for="inputArtist">Artist:</label>
+                    <div class="controls">
+                        <input type="text" class="input-xlarge" name="inputArtist" id="inputArtist" placeholder="A Perfect Circle"/>
+                        <p class="help-block">Set artist name</p>
+                    </div>
+                </div>
+                <div id="albumGroup" class="control-group">
+                    <label class="control-label" for="inputAlbum">Album:</label>
+                    <div class="controls">
+                        <input type="text" class="input-xlarge" name="inputAlbum" id="inputAlbum" placeholder="Mer de noms"/>
+                        <p class="help-block">Set album name</p>
+                    </div>
+                </div>
+                <div id="filesGroup" class="control-group">
+                    <label class="control-label" for="inputFiles">MP3s:</label>
+                    <div class="controls">
+                        <input type="file" draggable="true" name="files" id="inputFiles" multiple="multiple"/>
+                        <p class="help-block">Select files you want to upload</p>
+                    </div>
+                </div>
+            </fieldset>
+            <div id="wait"><img src="@routes.Assets.at("images/wait.gif")"></div>
+        </div>
+        <div class="modal-footer">
+            <input class="btn btn-primary" id="submit" type="submit" value="Upload" />
+            <a href="#" id="cancelupload" class="btn btn-danger" data-dismiss="modal">Annuler</a>
+        </div>
+    </form>
+</div>
+
+<script type="text/javascript">
+    $('#uploadafile').click(function(e) {
+        e.preventDefault()
+        $('#inputArtist').val("")
+        $('#inputAlbum').val("")
+        validate()
+        $('#wait').hide()
+        $('#songupload').modal()
+    })
+    $('#uploadafile submit').click(function(e) {
+        $('#wait').show()
+    })
+    $('#cancelupload').click(function(e) {
+        $('#inputArtist').val("")
+        $('#inputAlbum').val("")
+        $('#inputFiles').val("")
+    })
+
+    function initConfirmation() {
+        $('#artistGroup').attr("class", "control-group")
+        $('#albumGroup').attr("class", "control-group")
+        $('#submit').removeAttr("disabled")
+    }
+
+    function validate() {
+        if ($('#inputArtist').val() == "") {
+            $('#artistGroup').attr("class", "control-group error")
+        } else {
+            $('#artistGroup').attr("class", "control-group success")
+        }
+        if ($('#inputAlbum').val() == "") {
+            $('#albumGroup').attr("class", "control-group error")
+        } else {
+            $('#albumGroup').attr("class", "control-group success")
+        }
+        if ($('#inputArtist').val() != "" && $('#inputAlbum').val() != "") {
+            $('#submit').removeAttr("disabled")
+        } else {
+            $('#submit').attr("disabled", "disabled")
+        }
+    }
+
+    $('#inputArtist').blur(validate)
+    $('#inputAlbum').blur(validate)
+    $('#inputArtist').keyup(validate)
+    $('#inputAlbum').keyup(validate)
+    $(document).ready(function() {
+        validate()
+    })
+</script>

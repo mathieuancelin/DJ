@@ -1,5 +1,7 @@
 @(title: String)(content: Html)
 
+@import components._
+
 <!DOCTYPE html>
 
 <html>
@@ -32,7 +34,6 @@
                     <ul class="nav">
                         <!--<li><a href="#">Playlists</a></li>  -->
                         <li><a href="#" id="uploadafile">Upload MP3s</a></li>
-                        <!--<li><a href="#">Chat</a></li>     -->
                         <li><a href="#" id="updatelib">Update library</a></li>
                         <li><a href="#" id="showaboutmodal">About</a></li>
                         <li><a href="#" id="showmonitormodal">Monitor</a></li>
@@ -42,73 +43,9 @@
               </div>
             </div>
             <div class="container-fluid">
-                <div id="songupload" class="modal hide">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">×</button>
-                        <h3>Upload MP3s</h3>
-                    </div>
-                    <form action="@{routes.FilesController.upload()}" method="post" class="form-horizontal" enctype="multipart/form-data">
-                        <div class="modal-body">
-                        <fieldset>
-                            <div id="artistGroup" class="control-group">
-                                <label class="control-label" for="inputArtist">Artist:</label>
-                                <div class="controls">
-                                    <input type="text" class="input-xlarge" name="inputArtist" id="inputArtist" placeholder="A Perfect Circle"/>
-                                    <p class="help-block">Set artist name</p>
-                                </div>
-                            </div>
-                            <div id="albumGroup" class="control-group">
-                                <label class="control-label" for="inputAlbum">Album:</label>
-                                <div class="controls">
-                                    <input type="text" class="input-xlarge" name="inputAlbum" id="inputAlbum" placeholder="Mer de noms"/>
-                                    <p class="help-block">Set album name</p>
-                                </div>
-                            </div>
-                            <div id="filesGroup" class="control-group">
-                                <label class="control-label" for="inputFiles">MP3s:</label>
-                                <div class="controls">
-                                    <input type="file" draggable="true" name="files" id="inputFiles" multiple="multiple"/>
-                                    <p class="help-block">Select files you want to upload</p>
-                                </div>
-                            </div>
-                        </fieldset>
-                        <div id="wait"><img src="@routes.Assets.at("images/wait.gif")"></div>
-                        </div>
-                        <div class="modal-footer">
-                            <input class="btn btn-primary" id="submit" type="submit" value="Upload" />
-                            <a href="#" id="cancelupload" class="btn btn-danger" data-dismiss="modal">Annuler</a>
-                        </div>
-                    </form>
-                </div>
-                <div id="aboutmodal" class="modal hide">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">×</button>
-                        <h3>About DJ</h3>
-                    </div>
-                        <div class="modal-body">
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer vestibulum semper nulla, non sollicitudin odio rhoncus sit amet. Morbi elementum vestibulum lectus ac condimentum. Suspendisse auctor tortor nec nulla consequat dignissim. Nam a massa id orci mollis adipiscing. Maecenas congue consectetur bibendum. Duis facilisis nisi non sem dictum ut feugiat lectus placerat. Donec augue dolor, accumsan at venenatis quis, volutpat ac turpis. Duis eget ligula ut leo gravida pharetra rutrum ac sapien. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris tempor vehicula nisi non varius. Aliquam in dolor arcu, sed malesuada velit. Quisque mi magna, pellentesque et placerat at, congue eu lacus. Morbi vel volutpat nisi. Vestibulum porta porta cursus.
-                            </p><p>
-                                Aliquam pharetra ultricies turpis, in imperdiet urna dapibus nec. Nunc mauris ligula, viverra et bibendum sit amet, rutrum et arcu. Mauris fringilla consectetur metus vitae adipiscing. Sed orci ante, gravida sit amet tincidunt ac, ultricies vel sapien. Sed tempor tempus molestie. In eu massa ac nisi luctus ultrices vel sit amet lorem. Duis pretium nisi in purus adipiscing sollicitudin. Donec eu turpis velit, quis egestas erat. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
-                            </p>
-                        </div>
-                        <div class="modal-footer">
-                            <a href="#" class="btn btn-primary" data-dismiss="modal">Ok</a>
-                        </div>
-                </div>
-                <div id="monitormodal" class="modal hide">
-                    <div class="modal-header">
-                        <button type="button" class="close" id="closemonitormodal" data-dismiss="modal">×</button>
-                        <h3>DJ Monitoring</h3>
-                    </div>
-                    <div class="modal-body">
-                        <div style="width: 530px; height: 400px;" id="monitors">
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <a href="#" class="btn btn-primary" id="closemonitormodal2" data-dismiss="modal">Close</a>
-                    </div>
-                </div>
+                @upload()
+                @about()
+                @monitoring()
                 @content
             </div>
         </div>
@@ -116,71 +53,6 @@
             $('#updatelib').click(function(e) {
                 e.preventDefault()
                 $.post('@routes.CommandsController.reindexLibraryAsync()')
-            })
-            $('#uploadafile').click(function(e) {
-                e.preventDefault()
-                $('#inputArtist').val("")
-                $('#inputAlbum').val("")
-                validate()
-                $('#wait').hide()
-                $('#songupload').modal()
-            })
-            $('#uploadafile submit').click(function(e) {
-                $('#wait').show()
-            })
-            $('#showaboutmodal').click(function(e) {
-                e.preventDefault()
-                $('#aboutmodal').modal()
-            })
-            $('#showmonitormodal').click(function(e) {
-                e.preventDefault()
-                initMonitors( window.document.getElementById("monitors") )
-                runMonitors()
-                $('#monitormodal').modal()
-            })
-            $('#closemonitormodal').click(function(e) {
-                $('#monitors').empty()
-                stopMonitors()
-            })
-            $('#closemonitormodal2').click(function(e) {
-                $('#iframemonitormodal').attr("src", "")
-            })
-            $('#cancelupload').click(function(e) {
-                $('#inputArtist').val("")
-                $('#inputAlbum').val("")
-                $('#inputFiles').val("")
-            })
-
-            function initConfirmation() {
-                $('#artistGroup').attr("class", "control-group")
-                $('#albumGroup').attr("class", "control-group")
-                $('#submit').removeAttr("disabled")
-            }
-
-            function validate() {
-                if ($('#inputArtist').val() == "") {
-                    $('#artistGroup').attr("class", "control-group error")
-                } else {
-                    $('#artistGroup').attr("class", "control-group success")
-                }
-                if ($('#inputAlbum').val() == "") {
-                    $('#albumGroup').attr("class", "control-group error")
-                } else {
-                    $('#albumGroup').attr("class", "control-group success")
-                }
-                if ($('#inputArtist').val() != "" && $('#inputAlbum').val() != "") {
-                    $('#submit').removeAttr("disabled")
-                } else {
-                    $('#submit').attr("disabled", "disabled")
-                }
-            }
-
-            $('#inputArtist').blur(validate)
-            $('#inputAlbum').blur(validate)
-            $('#inputArtist').keyup(validate)
-            $('#inputAlbum').keyup(validate)
-            $(document).ready(function() {
-                validate()
             })
         </script>
     </body>

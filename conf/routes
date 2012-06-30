@@ -5,7 +5,6 @@
 #Basic Pages
 GET     /                               controllers.Application.index
 GET     /redindex                       controllers.Application.reindexLibrary
-GET     /monitor                        controllers.MonitorController.monitor()
 
 #Commands
 POST    /commands/enqueue               controllers.CommandsController.enqueue
