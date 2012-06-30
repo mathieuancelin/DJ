@@ -92,11 +92,11 @@
     })
     function updateUI( data) {
         $('#playing').html( render('#playing_tmpl',
-                {
-                    name: data["name"],
-                    album: data["album"],
-                    artist: data["artist"]
-                }
+            {
+                name: data["name"],
+                album: data["album"],
+                artist: data["artist"]
+            }
         ))
         var pict = render('#pict_tmpl', { img: data["img"] } )
         if ($('#pict').html() != pict) {
@@ -104,12 +104,17 @@
         }
         $('#queue').html("")
         var songs = data["queue"]
+        if (songs.length == 0) {
+            $('#queue').hide()
+        } else {
+            $('#queue').show()
+        }
         for (i in songs) {
             $('#queue').append( render('#queue_tmpl',
-                    {
-                        id: songs[i]["id"],
-                        name: songs[i]["name"]
-                    }
+                {
+                    id: songs[i]["id"],
+                    name: songs[i]["name"]
+                }
             ))
         }
         if (data.notification != undefined) {
@@ -119,4 +124,7 @@
             }
         }
     }
+    $(document).ready(function() {
+        $('#queue').hide()
+    })
 </script>

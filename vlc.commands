@@ -1,0 +1,5 @@
+vlc -vvv --volume 512 --play-and-exit --key-play-pause --no-video 
+
+vlc -vvv --play-and-exit --key-play-pause --no-video 
+
+--key-vol-up

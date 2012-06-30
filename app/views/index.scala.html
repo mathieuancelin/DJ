@@ -30,6 +30,8 @@
                         noty({layout: 'bottomRight', theme: 'noty_theme_twitter',
                             type :'success', text: "Library list has just been updated", timeout : 3000 })
                         cacheQuickSearchAfterUpdate()
+                        $('#updatelib').html("Update library")
+                        $('#updatelib').removeAttr("disabled")
                     })
                 }
             }

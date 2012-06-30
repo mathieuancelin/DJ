@@ -46,6 +46,7 @@
                 @upload()
                 @about()
                 @monitoring()
+
                 @content
             </div>
         </div>
@@ -53,6 +54,8 @@
             $('#updatelib').click(function(e) {
                 e.preventDefault()
                 $.post('@routes.CommandsController.reindexLibraryAsync()')
+                $('#updatelib').html("Updating ...")
+                $('#updatelib').attr("disabled", "disabled")
             })
         </script>
     </body>
