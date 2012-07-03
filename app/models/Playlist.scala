@@ -5,7 +5,7 @@ import play.api.db._
 import anorm.SqlParser._
 import play.api.Play.current
 
-case class Playlist( id: Long = -1L ) {
+case class Playlist( id: Long = -1L, name: String, likeit: Long, dontlikeit: Long, played: Long ) {
 
     def save() = Playlist.save( this )
 
@@ -17,8 +17,12 @@ case class Playlist( id: Long = -1L ) {
 object Playlist {
 
     val simple = {
-        get[Long]( "playlist.id" ) map {  // use ~ get[String]("playlist.stuff")
-            case id => Playlist( id ) // use case id ~ stuff => Playlist( id, stuff ) 
+        get[Long]( "playlist.id" ) ~
+        get[String]( "playlist.name" ) ~
+        get[Long]( "playlist.likeit" ) ~
+        get[Long]( "playlist.dontlikeit" ) ~
+        get[Long]( "playlist.played" ) map {
+            case id ~ name ~ likeit ~ dontlikeit ~ played => Playlist( id, name, likeit, dontlikeit, played )
         }
     }
 
@@ -32,9 +36,10 @@ object Playlist {
 
     def create( model: Playlist ) = DB.withConnection { implicit connection =>
         val id: Long = Playlist.nextId()
-        /** TODO : update the SQL req below to match your case class structure **/
-        SQL( "insert into playlist values ( {id} )" ).on( "id" -> id ).executeUpdate()
-        ( id, Playlist( id ) )
+        SQL( "insert into playlist values ( {id}, {name}, {likeit}, {dontlikeit}, {played} )" )
+            .on( "id" -> id, "name" -> model.name,
+            "likeit" -> model.likeit, "dontlikeit" -> model.dontlikeit, "played" -> model.played ).executeUpdate()
+        ( id, Playlist( id, model.name, model.likeit, model.dontlikeit, model.played ) )
     }
 
     def save( model:Playlist ) = {
@@ -54,9 +59,11 @@ object Playlist {
     }
 
     def update( id: Long, model: Playlist ) = DB.withConnection { implicit connection =>
-        /** TODO : update the SQL req below to match your case class structure **/
-        //SQL( "update playlist set stuff = {stuffvalue} where id = {id}" ).on( "id"-> id, "stuffvalue" -> "value" ).executeUpdate()
-        Playlist( id )
+        SQL( "update playlist set name = {name}, likeit = {likeit}, dontlikeit = {dontlikeit}, played = {played} where id = {id}" )
+            .on( "id" -> id, "name" -> model.name,
+            "likeit" -> model.likeit,
+            "dontlikeit" -> model.dontlikeit, "played" -> model.played  ).executeUpdate()
+        Playlist( id, model.name, model.likeit, model.dontlikeit, model.played )
     }
 
     def count() = DB.withConnection { implicit connection => 

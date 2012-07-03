@@ -17,7 +17,7 @@
 <script type="text/javascript">
     $('#showmonitormodal').click(function(e) {
         e.preventDefault()
-        initMonitors( window.document.getElementById("monitors") )
+        initMonitors( $('#monitors').get(0) )
         runMonitors()
         $('#monitormodal').modal()
     })

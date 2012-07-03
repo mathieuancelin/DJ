@@ -5,6 +5,15 @@
 #Basic Pages
 GET     /                               controllers.Application.index
 GET     /redindex                       controllers.Application.reindexLibrary
+GET     /playlists                      controllers.PlaylistController.index
+POST    /playlists                      controllers.PlaylistController.addPlaylist
+GET     /playlists/:id                  controllers.PlaylistController.showPlaylist(id: Long)
+
+#Playlist commands
+POST    /playlists/enqueue              controllers.PlaylistController.enqueuePlaylist
+POST    /playlists/delete               controllers.PlaylistController.deletePlaylist
+POST    /playlists/like                 controllers.PlaylistController.likePlaylist
+POST    /playlists/dontlike             controllers.PlaylistController.dontlikePlaylist
 
 #Commands
 POST    /commands/enqueue               controllers.CommandsController.enqueue
