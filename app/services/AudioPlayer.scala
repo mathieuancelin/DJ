@@ -103,6 +103,7 @@ class PlayerActor extends Actor with ActorLogging {
         case p: Play => {
             if ( Player.songsQueue.nonEmpty ) {
                 val song = Player.songsQueue.dequeue()
+                song.copy(played = song.played + 1L).save()
                 Player.currentSong = Option.apply( song.copy() )
                 val command = Array[String]( Constants.playerExec, song.path )
                 Application.pushNotification( "Playing '" + song.name + "' by " + song.artist + " from " + song.album)

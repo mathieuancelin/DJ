@@ -16,9 +16,9 @@ object CommandsController extends Controller {
 
     val idForm = Form( "id" -> text )
 
-    def clearQueue() = Action { request =>
+    def clearQueue() = Action { implicit request =>
         Player.songsQueue.clear
-        Application.pushNotification( "The queue has been cleared by " + request.headers.get(play.api.http.HeaderNames.FROM).getOrElse("Unknown") )
+        Application.pushNotification( "The queue has been cleared by " + request.remoteAddress  )
         Ok
     }
 
@@ -78,7 +78,7 @@ object CommandsController extends Controller {
                 Player.enqueue( id )
                 Application.pushNotification( "'" + Song.findById( id ).map( _.name ).getOrElse("Undefined")
                     + "' has been added to the queue by "
-                    + request.headers.get(play.api.http.HeaderNames.FROM).getOrElse("Unknown") )
+                    + request.remoteAddress )
                 Ok
             }
         )
@@ -92,7 +92,7 @@ object CommandsController extends Controller {
                 Player.prequeue( id )
                 Application.pushNotification( "'" + Song.findById( id ).map( _.name ).getOrElse("Undefined")
                     + "' has been added on top of the queue by "
-                    + request.headers.get(play.api.http.HeaderNames.FROM).getOrElse("Unknown") )
+                    + request.remoteAddress )
                 Ok
             }
         )
@@ -108,7 +108,7 @@ object CommandsController extends Controller {
                 newQueue.foreach { Player.songsQueue.enqueue( _ ) }
                 Application.pushNotification( "'" + Song.findById( id ).map( _.name ).getOrElse("Undefined")
                     + "' has been removed from the queue by "
-                    + request.headers.get(play.api.http.HeaderNames.FROM).getOrElse("Unknown") )
+                    + request.remoteAddress )
                 Ok
             }
         )

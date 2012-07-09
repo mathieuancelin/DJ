@@ -1,0 +1,8 @@
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea_modules/DJ-build.iml" filepath="$PROJECT_DIR$/.idea_modules/DJ-build.iml" ></module>
+      <module fileurl="file://$PROJECT_DIR$/.idea_modules/DJ.iml" filepath="$PROJECT_DIR$/.idea_modules/DJ.iml" ></module>
+    </modules>
+  </component>
+</project>

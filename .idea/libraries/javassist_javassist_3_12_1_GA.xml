@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="javassist_javassist_3.12.1.GA">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/tools/play-2.0.2/repository/local/javassist/javassist/3.12.1.GA/jars/javassist.jar!/"></root>
+    </CLASSES>
+    <JAVADOC> </JAVADOC>
+    <SOURCES> </SOURCES>
+  </library>
+</component>

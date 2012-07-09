@@ -57,7 +57,7 @@ object Application extends Controller {
     }  **/
 
     def playingSSE() = Action {
-        SimpleResult(
+        /**SimpleResult(
             header = ResponseHeader(
                 OK,
                 scala.collection.immutable.Map(
@@ -66,7 +66,9 @@ object Application extends Controller {
                 )
             ),
             hub.getPatchCord().through( toEventSource )
-        )
+        )**/
+
+        Ok.feed( hub.getPatchCord().through( toEventSource ) ).as( "text/event-stream" )
     }
 
     def playingDataJson(notification: String = "", command: String = "") = {

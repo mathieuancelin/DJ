@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="org.seleniumhq.selenium_selenium-chrome-driver_2.16.1_test">
+    <CLASSES>
+      <root 
+      url="jar://$USER_HOME$/tools/play-2.0.2/repository/local/org.seleniumhq.selenium/selenium-chrome-driver/2.16.1/jars/selenium-chrome-driver.jar!/">
+</root>
+    </CLASSES>
+    <JAVADOC> </JAVADOC>
+    <SOURCES> </SOURCES>
+  </library>
+</component>
