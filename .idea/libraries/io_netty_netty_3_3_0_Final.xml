@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="io.netty_netty_3.3.0.Final">
-    <CLASSES>
-      <root url="jar://$USER_HOME$/tools/play-2.0.2/repository/local/io.netty/netty/3.3.0.Final/bundles/netty.jar!/"></root>
-    </CLASSES>
-    <JAVADOC> </JAVADOC>
-    <SOURCES> </SOURCES>
-  </library>
-</component>
