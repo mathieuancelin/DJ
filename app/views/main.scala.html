@@ -1,29 +1,37 @@
-@(title: String)(content: Html)
+@(title: String, moreCss: Html = Html(""), moreJs: Html = Html(""))(content: Html)
 
 @import components._
+
+@import util.AssetHelper._
 
 <!DOCTYPE html>
 
 <html>
     <head>
         <title>@title</title>
-        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/main.css")">
-        <link rel="stylesheet" media="screen" href="@routes.Assets.at("bootstrap/css/bootstrap.min.css")">
-        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/noty/jquery.noty.css")">
-        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/noty/noty_theme_twitter.css")">
-        <link rel="stylesheet" media="screen" href="@routes.Assets.at("stylesheets/monitor.min.css")" />
-        <link rel="shortcut icon" type="image/png" href="@routes.Assets.at("images/favicon.png")">
-        <script src="@routes.Assets.at("javascripts/jquery-1.7.1.min.js")" type="text/javascript"></script>
-        <script src="@routes.Assets.at("javascripts/jquery.quicksearch.js")" type="text/javascript"></script>
-        <script src="@routes.Assets.at("javascripts/jquery.tablesorter.min.js")" type="text/javascript"></script>
-        <script src="@routes.Assets.at("javascripts/mustache.js")" type="text/javascript"></script>
-        <script src="@routes.Assets.at("javascripts/main.js")" type="text/javascript"></script>
-        <script src="@routes.Assets.at("bootstrap/js/bootstrap.min.js")" type="text/javascript"></script>
-        <script src="@routes.Assets.at("bootstrap/js/bootstrap-modal.js")" type="text/javascript"></script>
-        <script src="@routes.Assets.at("javascripts/jquery.noty.js")" type="text/javascript"></script>
-        <script src="@routes.Assets.at("javascripts/promise.js")" type="text/javascript"></script>
-        <script src="@routes.Assets.at("javascripts/monitor.js")" type="text/javascript"></script>
-        <script src="@routes.Assets.at("javascripts/zanimo.min.js")" type="text/javascript"></script>
+
+        @favicon("images/favicon.png")
+
+        @cssTag("main.css")
+        @css("bootstrap/css/bootstrap.min.css")
+        @cssTag("noty/jquery.noty.css")
+        @cssTag("noty/noty_theme_twitter.css")
+        @cssTag("monitor.min.css")
+        @moreCss
+
+        @jsTag("jquery-1.7.1.min.js")
+        @jsTag("jquery.quicksearch.js")
+        @jsTag("jquery.tablesorter.min.js")
+        @jsTag("mustache.js")
+        @jsTag("main.js")
+        @js("bootstrap/js/bootstrap.min.js")
+        @js("bootstrap/js/bootstrap-modal.js")
+        @jsTag("jquery.noty.js")
+        @jsTag("promise.js")
+        @jsTag("monitor.js")
+        @jsTag("zanimo.min.js")
+        @moreJs
+
     </head>
     <body>
         <div class="container">
