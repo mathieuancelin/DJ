@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="acfff37d-9f04-428f-ae56-dc03b354089f" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/util/AssetHelper.scala" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/DJ.iws" afterPath="$PROJECT_DIR$/DJ.iws" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/views/main.scala.html" afterPath="$PROJECT_DIR$/app/views/main.scala.html" />
     </list>
     <ignored path="DJ.iws" />
@@ -65,7 +63,7 @@
       <file leaf-file-name="main.scala.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/views/main.scala.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="28" column="53" selection-start="758" selection-end="758" vertical-scroll-proportion="0.79696393">
+            <state line="2" column="20" selection-start="104" selection-end="104" vertical-scroll-proportion="0.056925997">
               <folding />
             </state>
           </provider>
@@ -699,7 +697,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/views/main.scala.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="53" selection-start="758" selection-end="758" vertical-scroll-proportion="0.79696393">
+        <state line="2" column="20" selection-start="104" selection-end="104" vertical-scroll-proportion="0.056925997">
           <folding />
         </state>
       </provider>
