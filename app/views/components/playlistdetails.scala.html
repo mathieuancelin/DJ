@@ -1,0 +1,64 @@
+@(songs: List[Song])
+
+<div class="span8">
+    <div id="toolbar">
+        <br/>
+        <a href="#" id="addsongs" class="playlist-add btn btn-success" title="Add songs">
+            <i class="icon-plus-sign icon-white "></i> &nbsp;&nbsp;Add songs to the playlist
+        </a>
+        <br/><br/>
+    </div>
+    @if(songs.isEmpty) {
+    <div class="alert">
+        Ooops, there is no songs in this playlist
+    </div>
+    } else {
+    <div id="songs">
+        <table class="table table-striped table-condensed table-bordered tablesorter">
+            <thead>
+            <tr>
+                <th>
+                    <b>Name</b>
+                </th>
+                <th>
+                    <b>Album</b>
+                </th>
+                <th>
+                    <b>Artist</b>
+                </th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            @for(song <- songs) {
+            <tr>
+                <td style="width: 400px">
+                    <p></p><a href="@routes.FilesController.file(song.id)">@song.name</a></p>
+                </td>
+                <td style="width: 150px">
+                    <p><a href="@routes.FilesController.album(song.artist, song.album)">@song.album</a></p>
+                </td>
+                <td style="width: 150px">
+                    <p><a href="@routes.FilesController.artist(song.artist)">@song.artist</a></p>
+                </td>
+                <td style="width: 50px">
+                    <a href="@song.id" class="delete-from-pl btn btn-danger" title="Delete from playlist">
+                        <i class="icon-remove icon-white"></i>
+                    </a>
+                </td>
+            </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+    }
+</div>
+
+
+<script type="text/javascript">
+    $('.delete-from-pl').click(function(e) {
+        e.preventDefault()
+        var href = $(this).attr('href')
+        $.post('@routes.PlaylistController.deleteSongFrom(0)', {id: href})
+    })
+</script>

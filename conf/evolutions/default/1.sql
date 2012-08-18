@@ -15,13 +15,6 @@ create table song (
   constraint pk_song primary key (id))
 ;
 
-create table queue (
-  id                        bigint not null,
-  id_song                   bigint not null,
-  prequeued                 bigint,
-  constraint pk_queue primary key (id))
-;
-
 create table playlist (
   id                        bigint not null,
   name                      varchar(1000) not null,
@@ -32,13 +25,13 @@ create table playlist (
 ;
 
 create table playlistsongs (
+  id                        bigint not null,
   id_playlist               bigint not null,
   id_song                   bigint not null,
-  constraint pk_playlistsongs primary key (id_playlist))
+  constraint pk_playlistsongs primary key (id))
 ;
 
 create sequence song_seq;
-create sequence queue_seq;
 create sequence playlist_seq;
 create sequence playlistsongs_seq;
 

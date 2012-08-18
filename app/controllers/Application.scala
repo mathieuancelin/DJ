@@ -52,22 +52,7 @@ object Application extends Controller {
         hubEnumerator.push( playingDataJson( notification, "updatelib" ) )
     }
 
-    /**def updateClients( notification: String = "", command: String = "" ): Unit = {
-        hubEnumerator.push( playingDataJson( notification, command ) )
-    }  **/
-
     def playingSSE() = Action {
-        /**SimpleResult(
-            header = ResponseHeader(
-                OK,
-                scala.collection.immutable.Map(
-                    CONTENT_LENGTH -> "-1",
-                    CONTENT_TYPE -> "text/event-stream"
-                )
-            ),
-            hub.getPatchCord().through( toEventSource )
-        )**/
-
         Ok.feed( hub.getPatchCord().through( toEventSource ) ).as( "text/event-stream" )
     }
 

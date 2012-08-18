@@ -60,19 +60,19 @@ function say()
 
 function echoStart()
 {
-	echo " "
-	echo "|==========================================|"
-	echo "|                                          |"
-	echo "|             Welcome in DJ !!!            |"
-	echo "|                                          |"
-	echo "|==========================================|"
+	echo "|================== DJ ====================|"
 	echo " "
 	return;
 }
 
 function displayHelp()
 {
-	echoStart
+    echo " "
+    echo "|==========================================|"
+    echo "|                                          |"
+    echo "|             Welcome in DJ !!!            |"
+    echo "|                                          |"
+    echo "|==========================================|"
     echo " "
     echo "You're targetting DJ server @ $APP_PATH "
     echo " "
@@ -82,6 +82,10 @@ function displayHelp()
 	echo "  stop        stop the current song"
 	echo "  next        skip to next song"
 	echo "  clear       clear the current queue"
+	echo "  monitoring  display montoring stream"
+	echo "  say %       broadcast text message on all client"
+	echo "  updtlist    update library on all clients"
+	echo "  updtplaying update playing sidebar on all clients"
 	echo "  --help      display help"
 	echo " "
 	echo "Have fun :)"

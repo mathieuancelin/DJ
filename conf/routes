@@ -14,6 +14,8 @@ POST    /playlists/enqueue              controllers.PlaylistController.enqueuePl
 POST    /playlists/delete               controllers.PlaylistController.deletePlaylist
 POST    /playlists/like                 controllers.PlaylistController.likePlaylist
 POST    /playlists/dontlike             controllers.PlaylistController.dontlikePlaylist
+POST    /playlists/:id/add              controllers.PlaylistController.addSongTo(id: Long)
+POST    /playlists/:id/delete           controllers.PlaylistController.deleteSongFrom(id: Long)
 
 #Commands
 POST    /commands/enqueue               controllers.CommandsController.enqueue

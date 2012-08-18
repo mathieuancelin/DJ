@@ -55,9 +55,9 @@ object CommandsController extends Controller {
             formWithErrors => Ok,
             { messageValue =>
                 Application.pushNotification( "[MESSAGE] " + messageValue )
+                Ok
             }
         )
-        Ok
     }
 
     def volumeUp() = Action { implicit request =>

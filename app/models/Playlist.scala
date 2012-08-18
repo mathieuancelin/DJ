@@ -11,7 +11,9 @@ case class Playlist( id: Long = -1L, name: String, likeit: Long, dontlikeit: Lon
 
     def delete() = Playlist.delete( id )
 
-    def exists() = Playlist.exists( this ) 
+    def exists() = Playlist.exists( this )
+
+    def songs() = Playlist.songs( this )
 }
 
 object Playlist {
@@ -73,6 +75,10 @@ object Playlist {
 
     def nextId() = DB.withConnection { implicit connection =>
         SQL( "select next value for playlist_seq" ).as( scalar[Long].single )
+    }
+
+    def songs( pl: Playlist ) = {
+        PlaylistSongs.findByPlaylistId( pl.id ).map { _.song() }.filter { _.isDefined }.map { _.get }
     }
 
     def exists( id: Long ) = Playlist.findById( id ).isDefined

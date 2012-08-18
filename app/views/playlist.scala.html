@@ -1,0 +1,38 @@
+@(songs: List[Song])
+
+@import components._
+
+@main("DJ - Playlist") {
+
+<div class="row-fluid">
+
+    @sidebar()
+
+    @playlistdetails( songs )
+
+    <script type="text/javascript">
+        function openSSEConnection() {
+            var pushSource = new EventSource( '@routes.Application.playingSSE()' )
+            pushSource.onopen = function(e) {
+                console.log("[INFO] SSE channel opened !")
+            }
+            pushSource.onerror = function(e) {
+                if (pushSource.readyState == EventSource.CLOSED) {
+                    console.log("[INFO] SSE channel closed !")
+                } else {
+                    console.log("[ERROR] SSE channel error : %s", e)
+                }
+            }
+            pushSource.onmessage = function ( event ) {
+                var data = JSON.parse( event.data )
+                updateUI( data )
+            }
+            $.post( '@routes.CommandsController.updatePlaying()' )
+        }
+        $(document).ready(function () {
+            DJ.log("Ready to go !!!")
+            setTimeout(openSSEConnection,400)
+        })
+    </script>
+</div>
+}

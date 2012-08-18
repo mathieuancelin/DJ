@@ -33,7 +33,7 @@ object PlaylistController extends Controller {
     }
 
     def showPlaylist(id: Long) = Action {
-        Ok
+        Ok( views.html.playlist( Playlist.findById( id ).map { _.songs() } getOrElse( List[Song]() ) ) )
     }
 
     def enqueuePlaylist() = Action { implicit request =>
@@ -41,7 +41,7 @@ object PlaylistController extends Controller {
             formWithErrors => BadRequest( "You have to post an 'id' value" ),
             { id =>
                 Playlist.findById(id).map { pl =>
-
+                     pl.songs().foreach { song => Player.enqueue( song.id ) }
                 }
                 Ok
             }
@@ -74,6 +74,27 @@ object PlaylistController extends Controller {
             { id =>
                 Playlist.findById(id).foreach { pl => Playlist(pl.id, pl.name, pl.likeit, pl.dontlikeit + 1, pl.played).save() }
                 Ok( Playlist.findById(id).map { pl => pl.likeit + " / " + pl.dontlikeit }.getOrElse("0 / 0") )
+            }
+        )
+    }
+
+    def addSongTo(playListId: Long) = Action { implicit request =>
+        idForm.bindFromRequest().fold(
+            formWithErrors => BadRequest( "You have to post an 'id' value" ),
+            { id =>
+                PlaylistSongs(-1L, playListId, id).save()
+                Ok
+            }
+        )
+    }
+    def deleteSongFrom(playListId: Long) = Action { implicit request =>
+        idForm.bindFromRequest().fold(
+            formWithErrors => BadRequest( "You have to post an 'id' value" ),
+            { id =>
+                PlaylistSongs.findByPlaylistAndSong(playListId, id).foreach { pls =>
+                    pls.delete()
+                }
+                Ok
             }
         )
     }

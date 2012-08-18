@@ -30,18 +30,16 @@ object FilesController extends Controller {
         }
     }
 
-    def erase( file: java.io.File ): Unit = {
+    def erase( file: File ): Unit = {
         if (file.isDirectory) {
-            Option.apply( file.list() ).foreach { files => files.foreach { f => erase( new java.io.File( f ) ) } }
-            file.delete()
-        } else {
-            file.delete()
+            Option.apply( file.list() ).foreach { _.foreach { f => erase( new File( f ) ) } }
         }
+        file.delete()
     }
 
     def runZipCleaner() = {
         Akka.system.scheduler.schedule( 0 millisecond, 120 minutes ) {
-            val rootFiles = new java.io.File( Constants.tmpDownloadDir )
+            val rootFiles = new File( Constants.tmpDownloadDir )
             if ( rootFiles.exists ) {
                 erase( rootFiles )
                 rootFiles.mkdirs()
@@ -60,7 +58,6 @@ object FilesController extends Controller {
                 if (!artist.isEmpty && !album.isEmpty) {
                     request.body.asMultipartFormData.headOption.map { m =>
                         m.files.map { file =>
-                            import java.io.File
                             val filename = file.filename
                             val contentType = file.contentType
                             val artistDir = new File(Constants.musicBase, artist)
@@ -94,7 +91,7 @@ object FilesController extends Controller {
     def file(id: Long) = Action { implicit request =>
         createTmpRootIfNotExists()
         Song.findById( id ).map { song =>
-            Ok.sendFile( new java.io.File( song.path ) )    
+            Ok.sendFile( new File( song.path ) )
         }.getOrElse {
             BadRequest( "Song with id " + id + " doesn't exists." )
         }
@@ -103,7 +100,7 @@ object FilesController extends Controller {
     def currentSong() = Action { implicit request =>
         createTmpRootIfNotExists()
         Player.currentSong.map { song =>
-            Ok.sendFile( new java.io.File( song.path ) )
+            Ok.sendFile( new File( song.path ) )
         }.getOrElse {
             BadRequest( "Song doesn't exists." )
         }
@@ -114,7 +111,7 @@ object FilesController extends Controller {
         val promise = Akka.future {
             val tmpFileName = Constants.tmpDownloadDir + "/" + System.currentTimeMillis() + ".zip"
             ZipUtils.zip(tmpFileName, Player.songsQueue.map { _.path } )
-            Ok.sendFile( new java.io.File( tmpFileName ) )
+            Ok.sendFile( new File( tmpFileName ) )
         }
         Async {
             promise.map { result => result }
@@ -125,11 +122,11 @@ object FilesController extends Controller {
        createTmpRootIfNotExists()
        val promise = Akka.future { 
             val tmpFileName = Constants.tmpDownloadDir + "/" + name.replace(" ", "") + ".zip"
-            if ( !new java.io.File( tmpFileName ).exists ) {
+            if ( !new File( tmpFileName ).exists ) {
                 val possibleArtistFolder = Constants.musicBase + "/" + name.replace(" ", "")
                 ZipUtils.zip(tmpFileName, Song.findByArtist( name ).map { _.path } )
             }
-            Ok.sendFile( new java.io.File( tmpFileName ) )
+            Ok.sendFile( new File( tmpFileName ) )
         }
         Async {
             promise.map { result => result }
@@ -139,17 +136,17 @@ object FilesController extends Controller {
         createTmpRootIfNotExists()
         val promise = Akka.future { 
             val tmpFileName = Constants.tmpDownloadDir + "/" + artist.replace(" ", "") + name.replace(" ", "") + ".zip"
-            if ( !new java.io.File( tmpFileName ).exists ) {
+            if ( !new File( tmpFileName ).exists ) {
                 val possibleArtistFolder = Constants.musicBase + "/" + artist.replace(" ", "") + "/" + name.replace(" ", "")
                 ZipUtils.zip(tmpFileName, Song.findByArtistAndAlbum( artist, name ).map { _.path } )
             }
-            Ok.sendFile( new java.io.File( tmpFileName ) )
+            Ok.sendFile( new File( tmpFileName ) )
         }
         Async {
             promise.map { result => result }
         }    
     }
     def song(artist: String, album: String, name: String) = Action { implicit request =>
-        Ok.sendFile( new java.io.File( Song.findByArtistAndAlbumAndName( artist, album, name ).head.path ) )
+        Ok.sendFile( new File( Song.findByArtistAndAlbumAndName( artist, album, name ).head.path ) )
     }
 }
