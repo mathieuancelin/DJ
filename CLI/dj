@@ -53,8 +53,10 @@ function updtlist()
 function say()
 {
     MESSAGE=$1
+    echo $MESSAGE
+    MESSAGE=`echo $MESSAGE | tr ' ' '%20'`
 	curl -X POST -d "message=$MESSAGE" -o /dev/null $DJ_URL/commands/say -s
-	echo "Clearing the queue on $DJ_URL/commands/say"
+	echo "Pushing message '$MESSAGE' to all clients on $DJ_URL/commands/say"
 	return;
 }
 

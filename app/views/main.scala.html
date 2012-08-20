@@ -16,19 +16,22 @@
         @cssTag("noty/jquery.noty.css")
         @cssTag("noty/noty_theme_twitter.css")
         @cssTag("monitor.min.css")
+        <!--@css("datatable/css/jquery.dataTables.css")-->
         @moreCss
 
         @jsTag("jquery-1.7.1.min.js")
-        @jsTag("jquery.quicksearch.js")
-        @jsTag("jquery.tablesorter.min.js")
+        <!--@jsTag("jquery.quicksearch.js")-->
+        <!--@jsTag("jquery.tablesorter.min.js")     -->
         @jsTag("mustache.js")
         @jsTag("main.js")
         @js("bootstrap/js/bootstrap.min.js")
         @js("bootstrap/js/bootstrap-modal.js")
+        <!--@js("bootstrap/js/bootstrap-dropdown.js")-->
         @jsTag("jquery.noty.js")
         @jsTag("promise.js")
         @jsTag("monitor.js")
         @jsTag("zanimo.min.js")
+        @js("datatable/js/jquery.dataTables.min.js")
         @moreJs
 
     </head>
@@ -44,7 +47,7 @@
                         <li><a href="#" id="updatelib">Update library</a></li>
                         <li><a href="#" id="showaboutmodal">About</a></li>
                         <li><a href="#" id="showmonitormodal">Monitor</a></li>
-                        <li><a href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(@models.Song.count() songs)</a></li>
+                        <li><a href="#">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(@models.Song.count() MP3s)</a></li>
                     </ul>
                 </div>
               </div>
@@ -53,6 +56,7 @@
                 @upload()
                 @about()
                 @monitoring()
+                @songinfos()
 
                 @content
             </div>

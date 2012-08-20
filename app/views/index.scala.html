@@ -26,13 +26,11 @@
                 var data = JSON.parse( event.data )
                 updateUI( data )
                 if (data.command == "updatelib") {
-                    $('#songs').load('/ #library', function() {
-                        noty({layout: 'bottomRight', theme: 'noty_theme_twitter',
-                            type :'success', text: "Library list has just been updated", timeout : 3000 })
-                        cacheQuickSearchAfterUpdate()
-                        $('#updatelib').html("Update library")
-                        $('#updatelib').removeAttr("disabled")
-                    })
+                    noty({layout: 'bottomRight', theme: 'noty_theme_twitter',
+                        type :'success', text: "Library list has just been updated", timeout : 3000 })
+                    updateTableContent()
+                    $('#updatelib').html("Update library")
+                    $('#updatelib').removeAttr("disabled")
                 }
             }
             $.post( '@routes.CommandsController.updatePlaying()' )
